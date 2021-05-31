@@ -15,20 +15,29 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template core/tabtree
+    @template mod_applaunch/view
 
-    Tab tree.
+    Activity view page.
 
     Example context (json):
     {
-        "tabs": [{
-            "active": "true",
-            "inactive": "false",
-            "link": [{
-                "link": "http://moodle.org"
-            }],
-            "title": "Moodle.org",
-            "text": "Moodle community"
-        }]
+        "modname": "Activity X",
+        "url": "https://www.moodle.test/mod/applaunch/launch.php",
+        "urlparams" : [
+            {
+                "name": "id",
+                "value": 3
+            }
+        ]
     }
 }}
+<div class="mod_applaunch_view">
+    <h1>{{modname}}</h1>
+    <p>{{#str}} view:description, applaunch {{/str}}</p>
+    <form action="{{url}}" method="get">
+        {{#urlparams}}
+            <input type="hidden" name="{{name}}" value="{{value}}">
+        {{/urlparams}}
+        <input type="submit" name="submit" class="btn btn-primary" role="button" value="{{#str}} view:launch, applaunch {{/str}}">
+    </form>
+</div>

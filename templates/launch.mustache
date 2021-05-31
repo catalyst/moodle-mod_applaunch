@@ -15,20 +15,18 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template core/tabtree
+    @template mod_applaunch/launch
 
-    Tab tree.
+    Launch page.
 
     Example context (json):
     {
-        "tabs": [{
-            "active": "true",
-            "inactive": "false",
-            "link": [{
-                "link": "http://moodle.org"
-            }],
-            "title": "Moodle.org",
-            "text": "Moodle community"
-        }]
+        "applaunch": {
+            "name": "Test Activity",
+            "urlslug": "?id=test&user=12"
+        },
+        "apptype": {
+            "name": "Test Type",
+            "url": "app://test.com"
     }
 }}

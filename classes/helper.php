@@ -13,14 +13,42 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
- * This is a Moodle file.
+ * Helper methods.
  *
  * @package    mod_applaunch
  * @author     Andrew Madden <andrewmadden@catalyst-au.net>
  * @copyright  2021 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
- defined('MOODLE_INTERNAL') || die();
+
+namespace mod_applaunch;
+
+defined('MOODLE_INTERNAL') || die();
+
+class helper {
+
+    /**
+     * Get a filler icon for display in the actions column of a table.
+     *
+     * @param string $url The URL for the icon.
+     * @param string $icon The icon identifier.
+     * @param string $alt The alt text for the icon.
+     * @param string $iconcomponent The icon component.
+     * @param array $options Display options.
+     * @return string
+     */
+    public static function format_icon_link($url, $icon, $alt, $iconcomponent = 'moodle', $options = array()) {
+        global $OUTPUT;
+
+        return $OUTPUT->action_icon(
+            $url,
+            new \pix_icon($icon, $alt, $iconcomponent, [
+                'title' => $alt,
+            ]),
+            null,
+            $options
+        );
+    }
+}

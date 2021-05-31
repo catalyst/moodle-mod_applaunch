@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Main function file. Mostly contains callbacs.
+ * Main function file. Mostly contains callbacks.
  *
  * @package    mod_applaunch
  * @author     Andrew Madden <andrewmadden@catalyst-au.net>
@@ -25,14 +25,37 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-function mod_applaunch_add_instance($mod) {
-
+function applaunch_add_instance($applaunch) {
+    $applaunch = \mod_applaunch\applaunch::process_mod_form_data($applaunch);
+    $applaunchinstance = new mod_applaunch\applaunch(0, $applaunch);
+    $applaunchinstance->save();
+    return $applaunchinstance->get('id');
 }
 
-function mod_applaunch_update_instance($mod) {
-
+function applaunch_update_instance($applaunch) {
+    $applaunch = \mod_applaunch\applaunch::process_mod_form_data($applaunch);
+    $applaunchinstance = new mod_applaunch\applaunch($applaunch->id, $applaunch);
+    $applaunchinstance->save();
+    return true; // If instance is not able to be updated, an exception will be thrown.
 }
 
-function mod_applaunch_delete_instance($id) {
-
+function applaunch_delete_instance($id) {
+    $applaunchinstance = new mod_applaunch\applaunch($id);
+    return $applaunchinstance->delete();
 }
+
+function applaunch_get_coursemodule_info($cm): cached_cm_info {
+    $applaunchinstance = new mod_applaunch\applaunch($cm->instance);
+    $apptype = new \mod_applaunch\app_type($applaunchinstance->get('apptypeid'));
+
+    // Create cm cache object.
+    $cminfo = new cached_cm_info();
+    $cminfo->name = $applaunchinstance->get('name');
+    $cminfo->description = $applaunchinstance->get('description');
+    $cminfo->urlslug = $applaunchinstance->get('urlslug');
+    $cminfo->apptype = $apptype->to_record(); // Return the actual app type data, instead of only id.
+
+    return $cminfo;
+}
+
+function mod_applaunch_get_shortcuts($defaultitem) {}
