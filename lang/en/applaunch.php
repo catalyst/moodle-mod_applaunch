@@ -29,6 +29,10 @@ $string['pluginname'] = "App Launcher";
 $string['modulename'] = "App Launcher";
 $string['modulenameplural'] = "App Launchers";
 
+$string['applaunch:addinstance'] = 'Add instance';
+$string['applaunch:manageapptypes'] = 'Manage app types';
+$string['applaunch:view'] = 'View';
+
 $string['error:launchdirectaccess'] = 'Direct access to this page is not allowed. Return to your activity to access this page.';
 
 $string['event:applaunched'] = 'App launched';
@@ -67,5 +71,3 @@ $string['table:used'] = 'Used';
 
 $string['view:description'] = 'Click the launch button to open the app.';
 $string['view:launch'] = 'Launch';
-
-
