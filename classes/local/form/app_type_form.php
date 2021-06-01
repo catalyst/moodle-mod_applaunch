@@ -50,7 +50,7 @@ class app_type_form extends persistent {
         $mform->setType('description', PARAM_TEXT);
 
         $mform->addElement('text', 'url', get_string('form:app_type:url', 'applaunch'), array('size' => '64'));
-        $mform->setType('url', PARAM_URL);
+        $mform->setType('url', PARAM_RAW);
         $mform->addHelpButton('url', 'form:app_type:url', 'applaunch');
         $mform->addRule('url', null, 'required', null, 'client');
 

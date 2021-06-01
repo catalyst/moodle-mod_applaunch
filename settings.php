@@ -26,7 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $ADMIN->add('modsettings', new admin_category('modapplaunchsettings', new lang_string('pluginname', 'applaunch')));
-$ADMIN->add('modapplaunchsettings', $settings);
 $settings = null; // Tell core we have managed the settings pages ourselves.
 
 if (has_capability('mod/applaunch:manageapptypes', context_system::instance())) {
