@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class applaunch extends \core\persistent {
 
-    const TABLE = 'mod_applaunch';
+    const TABLE = 'applaunch';
 
     protected static function define_properties() {
         return [
