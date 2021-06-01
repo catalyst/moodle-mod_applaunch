@@ -46,7 +46,8 @@ class app_type_form extends persistent {
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
 
-        $mform->addElement('textarea', 'description', get_string('form:app_type:description', 'applaunch'), array('rows' => 4, 'cols' => 60));
+        $mform->addElement('textarea', 'description',
+                get_string('form:app_type:description', 'applaunch'), array('rows' => 4, 'cols' => 60));
         $mform->setType('description', PARAM_TEXT);
 
         $mform->addElement('text', 'url', get_string('form:app_type:url', 'applaunch'), array('size' => '64'));
