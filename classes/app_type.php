@@ -47,7 +47,7 @@ class app_type extends \core\persistent {
                 'default' => '',
             ],
             'url' => [
-                'type' => PARAM_URL,
+                'type' => PARAM_RAW, // PARAM_URL doesn't allow custom schemas.
             ],
             'enabled' => [
                 'type' => PARAM_INT,
