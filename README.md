@@ -17,8 +17,8 @@ Branches
 
 | Moodle verion     | Branch           | PHP  |
 | ----------------- | ---------------- | ---- |
-| Moodle 3.9+       | MOODLE_39_STABLE | 5.5+ |
-| Totara up to 11   | MOODLE_39_STABLE | 5.5+ |
+| Moodle 3.9+       | MOODLE_39_STABLE | 7.1+ |
+| Totara up to 11   | MOODLE_39_STABLE | 7.1+ |
 
 
 Support
@@ -42,3 +42,5 @@ This plugin was developed by Catalyst IT Australia:
 https://www.catalyst-au.net/
 
 <img alt="Catalyst IT" src="https://cdn.rawgit.com/CatalystIT-AU/moodle-auth_saml2/master/pix/catalyst-logo.svg" width="400">
+
+Activity Icon: Icons made by [Freepik](https://www.freepik.com "Freepik") from [www.flaticon.com](https://www.flaticon.com/ "Flaticon")
