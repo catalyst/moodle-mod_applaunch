@@ -90,4 +90,21 @@ class applaunch extends \core\persistent {
         }
         return $filtereddata;
     }
+
+    /**
+     * Get the cm object corresponding to this instance.
+     *
+     * @return \stdClass
+     */
+    public function get_cm(): \stdClass {
+        global $DB;
+        return $DB->get_record_sql("
+                SELECT cm.*
+                  FROM {course_modules} cm
+                  JOIN {modules} m on cm.module = m.id
+                 WHERE cm.instance = :id
+                   AND m.name = :modulename
+                ",
+                ['id' => $this->get('id'), 'modulename' => 'applaunch'], MUST_EXIST);
+    }
 }

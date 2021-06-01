@@ -68,6 +68,7 @@ $string['table:name'] = 'Name';
 $string['table:description'] = 'Description';
 $string['table:enabled'] = 'Enabled';
 $string['table:used'] = 'Used';
+$string['table:apptype'] = 'App Type';
 
 $string['view:description'] = 'Click the launch button to open the app.';
 $string['view:launch'] = 'Launch';
