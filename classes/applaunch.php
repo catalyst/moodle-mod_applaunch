@@ -67,15 +67,22 @@ class applaunch extends \core\persistent {
         $this->set('urlslug', $urlslug);
     }
 
-    public function get_url(): string {
+    /**
+     * Get the launch url.
+     *
+     * @param string $token User private key value to use a temporary token.
+     * @return string
+     */
+    public function get_url(string $token): string {
         $apptype = new app_type($this->get('apptypeid'));
-        return $apptype->get('url') . $this->get('urlslug');
+        $urlstring = $apptype->get('url') . $this->get('urlslug');
+        $url  = new \moodle_url($urlstring);
+        $url->params(['token' => $token]);
+        return $url->out(false);
     }
 
     /**
      * The mod form data includes standard fields that can't be passed to persistent object. Filter out these extra fields.
-     *
-     * // TODO: As we expect all fields from form, do we handle missing fields or just let it break?
      *
      * @param \stdClass $formdata
      */

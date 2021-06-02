@@ -46,7 +46,8 @@ if (!confirm_sesskey($sesskey)) {
     throw new moodle_exception('error:launchdirectaccess', 'applaunch');
 } else {
     // Attempt to launch the application.
-    header("Location: " . $appinstance->get_url());
+    $token = \mod_applaunch\ws_token::generate_user_key($cmid, $USER->id);
+    header("Location: " . $appinstance->get_url($token));
 
     // If app fails to launch, show some helper text.
     echo $OUTPUT->render_from_template('mod_applaunch/launch', [
