@@ -58,4 +58,6 @@ function applaunch_get_coursemodule_info($cm): cached_cm_info {
     return $cminfo;
 }
 
-function mod_applaunch_get_shortcuts($defaultitem) {}
+function mod_applaunch_get_shortcuts($defaultitem) {
+    // TODO: Implement get shortcuts.
+}

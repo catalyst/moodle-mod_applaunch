@@ -30,5 +30,8 @@ $action = optional_param('action', 'view', PARAM_ALPHANUMEXT);
 
 $PAGE->set_context(context_system::instance());
 
+require_login();
+require_capability('mod/applaunch:manageapptypes', context_system::instance());
+
 $manager = new \mod_applaunch\app_type_controller();
 $manager->execute($action);

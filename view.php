@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/sessionlib.php');
 
 global $CFG, $DB, $OUTPUT, $PAGE;
 
-$cmid = required_param('id', PARAM_INT);    // Course Module ID
+$cmid = required_param('id', PARAM_INT); // Course Module ID.
 
 list ($course, $cm) = get_course_and_cm_from_cmid($cmid, 'applaunch');
 $appinstance = new \mod_applaunch\applaunch($cm->instance);

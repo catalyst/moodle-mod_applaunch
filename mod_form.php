@@ -35,7 +35,7 @@ class mod_applaunch_mod_form extends moodleform_mod {
     protected function definition() {
         $mform =& $this->_form;
 
-        $mform->addElement('text', 'name', get_string('form:applaunch:instancename', 'applaunch'), array('size'=>'64'));
+        $mform->addElement('text', 'name', get_string('form:applaunch:instancename', 'applaunch'), array('size' => '64'));
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
 
@@ -43,7 +43,7 @@ class mod_applaunch_mod_form extends moodleform_mod {
                 array('rows' => 4, 'cols' => 60));
         $mform->setType('description', PARAM_TEXT);
 
-        $mform->addElement('text', 'urlslug', get_string('form:applaunch:urlslug', 'applaunch'), array('size'=>'64'));
+        $mform->addElement('text', 'urlslug', get_string('form:applaunch:urlslug', 'applaunch'), array('size' => '64'));
         $mform->setType('urlslug', PARAM_TEXT);
         $mform->addHelpButton('urlslug', 'form:applaunch:urlslug', 'applaunch');
 

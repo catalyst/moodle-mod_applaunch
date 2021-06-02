@@ -26,10 +26,10 @@
 require_once('../../config.php');
 require_once($CFG->libdir . '/sessionlib.php');
 
-global $CFG, $DB, $OUTPUT, $PAGE;
+global $CFG, $DB, $OUTPUT, $PAGE, $USER;
 
-$cmid = required_param('id', PARAM_INT);    // Course Module ID
-$sesskey = required_param('sesskey', PARAM_TEXT);    // Course Module ID
+$cmid = required_param('id', PARAM_INT); // Course Module ID.
+$sesskey = required_param('sesskey', PARAM_TEXT); // Course Module ID.
 
 list ($course, $cm) = get_course_and_cm_from_cmid($cmid, 'applaunch');
 $appinstance = new \mod_applaunch\applaunch($cm->instance);
@@ -41,9 +41,9 @@ $PAGE->set_url(new moodle_url('/mod/applaunch/launch.php', ['id' => $cmid]));
 
 echo $OUTPUT->header;
 
-// If the user attempted to access this page directly
+// If the user attempted to access this page directly.
 if (!confirm_sesskey($sesskey)) {
-    print_error('error:launchdirectaccess', 'applaunch');
+    throw new moodle_exception('error:launchdirectaccess', 'applaunch');
 } else {
     // Attempt to launch the application.
     header("Location: " . $appinstance->get_url());
