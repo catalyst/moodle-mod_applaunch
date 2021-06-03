@@ -47,6 +47,10 @@ class applaunch extends \core\persistent {
             'apptypeid' => [
                 'type' => PARAM_INT,
             ],
+            'completionexternal' => [
+                'type' => PARAM_BOOL,
+                'default' => true,
+            ],
         ];
     }
 
@@ -113,5 +117,14 @@ class applaunch extends \core\persistent {
                    AND m.name = :modulename
                 ",
                 ['id' => $this->get('id'), 'modulename' => 'applaunch'], MUST_EXIST);
+    }
+
+    /**
+     * Check if external completion is enabled.
+     *
+     * @return bool True if enabled.
+     */
+    public function is_external_completion_enabled(): bool {
+        return !empty($this->get('completionexternal'));
     }
 }
