@@ -95,9 +95,13 @@ class applaunch extends \core\persistent {
         $filtereddata = new \stdClass();
         $properties = self::properties_definition();
         foreach ($properties as $key => $property) {
-            if (!in_array($key, $defaultprops)) {
+            if (!in_array($key, $defaultprops) && isset($formdata->$key)) {
                 $filtereddata->$key = $formdata->$key;
             }
+        }
+        // Add instance if provided to identify applaunch instance.
+        if (!empty($formdata->instance)) {
+            $filtereddata->id = $formdata->instance;
         }
         return $filtereddata;
     }
