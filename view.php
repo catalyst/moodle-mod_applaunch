@@ -34,6 +34,7 @@ list ($course, $cm) = get_course_and_cm_from_cmid($cmid, 'applaunch');
 $appinstance = new \mod_applaunch\applaunch($cm->instance);
 
 require_login($course, false);
+require_capability('mod/applaunch:view', context_module::instance($cmid));
 
 $PAGE->set_url(new moodle_url('/mod/applaunch/view.php', ['id' => $cmid]));
 
