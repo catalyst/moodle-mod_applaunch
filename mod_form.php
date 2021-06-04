@@ -60,7 +60,34 @@ class mod_applaunch_mod_form extends moodleform_mod {
     }
 
     /**
-     * Get
+     * Add any custom completion rules to the form.
+     *
+     * @return array Contains the names of the added form elements.
+     */
+    public function add_completion_rules() {
+        $mform =& $this->_form;
+
+        $mform->addElement('checkbox', 'completionexternal', get_string('form:applaunch:completionexternal', 'applaunch'));
+        $mform->setDefault('completionexternal', 1);
+        $mform->setType('completionexternal', PARAM_INT);
+        $mform->addHelpButton('completionexternal', 'form:applaunch:completionexternal', 'applaunch');
+        return ['completionexternal'];
+    }
+
+    /**
+     * Called during validation. Override to indicate, based on the data, whether
+     * a custom completion rule is enabled (selected).
+     *
+     * @param array $data Input data (not yet validated)
+     * @return bool True if one or more rules is enabled, false if none are;
+     *   default returns false
+     */
+    public function completion_rule_enabled($data) {
+        return !empty($data['completionexternal']);
+    }
+
+    /**
+     * Get possible app types.
      *
      * @return array
      */

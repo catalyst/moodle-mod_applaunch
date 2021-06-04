@@ -28,12 +28,19 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = "App Launcher";
 $string['modulename'] = "App Launcher";
 $string['modulenameplural'] = "App Launchers";
+$string['pluginadministration'] = 'Manage App Launcher';
 
 $string['applaunch:addinstance'] = 'Add instance';
 $string['applaunch:manageapptypes'] = 'Manage app types';
 $string['applaunch:view'] = 'View';
 
 $string['error:launchdirectaccess'] = 'Direct access to this page is not allowed. Return to your activity to access this page.';
+$string['error:sitecompletionnotenabled'] = 'Completion is not enabled for site.';
+$string['error:activitycompletionnotenabled'] = 'Completion is not enabled for activity.';
+$string['error:externalcompletionnotenabled'] = 'External completion by app is not enabled for activity.';
+$string['error:usernotexists'] = 'User does not exist.';
+$string['error:cmnotexists'] = 'Course module does not exist.';
+$string['error:invalidcompletionstate'] = 'Completion state is not valid.';
 
 $string['event:applaunched'] = 'App launched';
 $string['event:apptypecreated'] = 'App type created';
@@ -42,12 +49,17 @@ $string['event:apptypedisabled'] = 'App type disabled';
 $string['event:apptypeenabled'] = 'App type enabled';
 $string['event:apptypeupdated'] = 'App type updated';
 
+$string['external:success'] = 'Success';
+$string['external:activityslug'] = 'Activity URL slug';
+
 $string['form:applaunch:apptype'] = 'App type';
 $string['form:applaunch:defaultapptype'] = 'Choose an app type';
 $string['form:applaunch:description'] = 'Description';
 $string['form:applaunch:instancename'] = 'Activity name';
 $string['form:applaunch:urlslug'] = 'URL slug';
 $string['form:applaunch:urlslug_help'] = 'This string will be appended to the launch url.';
+$string['form:applaunch:completionexternal'] = 'External app completion';
+$string['form:applaunch:completionexternal_help'] = 'Allow the external application to manage completion for users.';
 
 $string['form:app_type:description'] = 'Description';
 $string['form:app_type:enabled'] = 'Enabled';

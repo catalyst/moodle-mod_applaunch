@@ -47,6 +47,10 @@ class applaunch extends \core\persistent {
             'apptypeid' => [
                 'type' => PARAM_INT,
             ],
+            'completionexternal' => [
+                'type' => PARAM_BOOL,
+                'default' => true,
+            ],
         ];
     }
 
@@ -67,15 +71,22 @@ class applaunch extends \core\persistent {
         $this->set('urlslug', $urlslug);
     }
 
-    public function get_url(): string {
+    /**
+     * Get the launch url.
+     *
+     * @param string $token User private key value to use a temporary token.
+     * @return string
+     */
+    public function get_url(string $token): string {
         $apptype = new app_type($this->get('apptypeid'));
-        return $apptype->get('url') . $this->get('urlslug');
+        $urlstring = $apptype->get('url') . $this->get('urlslug');
+        $url  = new \moodle_url($urlstring);
+        $url->params(['token' => $token]);
+        return $url->out(false);
     }
 
     /**
      * The mod form data includes standard fields that can't be passed to persistent object. Filter out these extra fields.
-     *
-     * // TODO: As we expect all fields from form, do we handle missing fields or just let it break?
      *
      * @param \stdClass $formdata
      */
@@ -84,9 +95,13 @@ class applaunch extends \core\persistent {
         $filtereddata = new \stdClass();
         $properties = self::properties_definition();
         foreach ($properties as $key => $property) {
-            if (!in_array($key, $defaultprops)) {
+            if (!in_array($key, $defaultprops) && isset($formdata->$key)) {
                 $filtereddata->$key = $formdata->$key;
             }
+        }
+        // Add instance if provided to identify applaunch instance.
+        if (!empty($formdata->instance)) {
+            $filtereddata->id = $formdata->instance;
         }
         return $filtereddata;
     }
@@ -106,5 +121,14 @@ class applaunch extends \core\persistent {
                    AND m.name = :modulename
                 ",
                 ['id' => $this->get('id'), 'modulename' => 'applaunch'], MUST_EXIST);
+    }
+
+    /**
+     * Check if external completion is enabled.
+     *
+     * @return bool True if enabled.
+     */
+    public function is_external_completion_enabled(): bool {
+        return !empty($this->get('completionexternal'));
     }
 }

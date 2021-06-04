@@ -34,24 +34,16 @@ list ($course, $cm) = get_course_and_cm_from_cmid($cmid, 'applaunch');
 $appinstance = new \mod_applaunch\applaunch($cm->instance);
 
 require_login($course, false);
+require_capability('mod/applaunch:view', context_module::instance($cmid));
 
 $PAGE->set_url(new moodle_url('/mod/applaunch/view.php', ['id' => $cmid]));
+$PAGE->set_title($appinstance->get('name'));
 
-$html = '';
-$html .= $OUTPUT->header();
-$html .= $OUTPUT->render_from_template('mod_applaunch/view', [
-    'modname' => $appinstance->get('name'),
-    'url' => (new moodle_url('/mod/applaunch/launch.php'))->out(),
-    'urlparams' => [
-        [
-            'name' => 'id',
-            'value' => $cmid,
-        ],
-        [
-            'name' => 'sesskey',
-            'value' => sesskey(),
-        ],
-    ]
-]);
-$html .= $OUTPUT->footer();
-echo $html;
+echo $OUTPUT->header();
+echo html_writer::tag('h1', $appinstance->get('name'));
+echo html_writer::tag('p', $appinstance->get('description')); // Activity description.
+echo html_writer::tag('p', get_string('view:description', 'applaunch')); // Extra description string.
+$launchparams = ['id' => $cmid, 'sesskey' => sesskey()];
+echo $OUTPUT->single_button(new moodle_url('/mod/applaunch/launch.php', $launchparams),
+        get_string('view:launch', 'applaunch'));
+echo $OUTPUT->footer();

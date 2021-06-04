@@ -39,20 +39,11 @@ require_login($course, false);
 
 $PAGE->set_url(new moodle_url('/mod/applaunch/launch.php', ['id' => $cmid]));
 
-echo $OUTPUT->header;
-
 // If the user attempted to access this page directly.
-if (!confirm_sesskey($sesskey)) {
-    throw new moodle_exception('error:launchdirectaccess', 'applaunch');
-} else {
+if (confirm_sesskey($sesskey)) {
     // Attempt to launch the application.
-    header("Location: " . $appinstance->get_url());
-
-    // If app fails to launch, show some helper text.
-    echo $OUTPUT->render_from_template('mod_applaunch/launch', [
-        'applaunch' => $appinstance->to_record(),
-        'apptype' => $apptype->to_record(),
-    ]);
+    $token = \mod_applaunch\ws_token::generate_user_key($cmid, $USER->id);
+    header("Location: " . $appinstance->get_url($token));
+} else {
+    throw new moodle_exception('error:launchdirectaccess', 'applaunch');
 }
-
-echo $OUTPUT->footer;

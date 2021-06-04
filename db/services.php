@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Define plugin web services and external functions.
  *
  * @package    mod_applaunch
  * @author     Andrew Madden <andrewmadden@catalyst-au.net>
@@ -25,8 +25,20 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2021052503;
-$plugin->release = 2021052500; // Match release exactly to version.
-$plugin->requires = 2017051500; // T12.
-$plugin->component = 'mod_applaunch';
-$plugin->maturity = MATURITY_ALPHA;
+$functions = [
+    'mod_applaunch_complete_activity' => [
+        'classname'   => '\\mod_applaunch\\external\\complete_activity',
+        'methodname'  => 'execute',
+        'description' => 'Set completion of activity to COMPLETION_COMPLETE if completion is enabled.',
+        'type'        => 'write',
+    ]
+];
+
+$services = [
+    'App Launcher Service' => [
+        'functions' => array_keys($functions),
+        'restrictedusers' => 0,
+        'enabled' => 1,
+        'shortname' => 'mod_applaunch_service',
+    ],
+];
