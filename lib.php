@@ -72,9 +72,9 @@ function applaunch_delete_instance($id) {
  */
 function applaunch_supports($feature) {
     switch($feature) {
+        case FEATURE_BACKUP_MOODLE2:
         case FEATURE_COMPLETION_HAS_RULES:
             return true;
-        case FEATURE_BACKUP_MOODLE2:
         case FEATURE_COMPLETION_TRACKS_VIEWS:
         case FEATURE_GROUPINGS:
         case FEATURE_GROUPS:
