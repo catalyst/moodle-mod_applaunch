@@ -49,9 +49,14 @@ class app_type extends \core\persistent {
             'url' => [
                 'type' => PARAM_RAW, // PARAM_URL doesn't allow custom schemas.
             ],
+            'icon' => [
+                'type' => PARAM_TEXT, // File name.
+                'null' => NULL_ALLOWED,
+                'default' => null,
+            ],
             'enabled' => [
                 'type' => PARAM_INT,
-                'default' => 0,
+                'default' => 1,
             ],
         ];
     }
@@ -68,9 +73,12 @@ class app_type extends \core\persistent {
      * Execute before a save. Must be called in before_create and before_update hooks.
      */
     protected function before_save() {
-        // Trim the url.
+        // Trim the url and icon.
         $url = trim($this->get('url'));
         $this->set('url', $url);
+
+        $icon = trim($this->get('icon'));
+        $this->set('icon', $icon);
     }
 
     /**
@@ -85,5 +93,21 @@ class app_type extends \core\persistent {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Get the HTML for the icon.
+     *
+     * @return string HTML
+     */
+    public function get_icon_html(): string {
+        global $OUTPUT;
+        $default = $OUTPUT->pix_icon('icon', $this->get('name') . ' icon', 'applaunch');
+
+        if (empty($this->get('icon'))) {
+            return $default;
+        }
+
+        return \html_writer::empty_tag('img', array('src' => $this->get('icon'), 'alt' => $this->get('name') . ' icon'));
     }
 }

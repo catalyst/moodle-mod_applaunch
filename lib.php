@@ -111,8 +111,36 @@ function applaunch_get_coursemodule_info($cm): cached_cm_info {
     return $cminfo;
 }
 
-function mod_applaunch_get_shortcuts($defaultitem) {
-    // TODO: Implement get shortcuts.
+/**
+ * Return aliases of this activity. Activity should have an alias for each configured app type.
+ * This is so you can add an app type directly to the activity chooser.
+ *
+ * @param stdClass $defaultitem default item that would be added to the activity chooser if this callback was not present.
+ *     It has properties: archetype, name, title, help, icon, link
+ * @return array An array of aliases for this activity. Each element is an object with same list of properties as $defaultitem,
+ *     plus an additional property, helplink.
+ *     Properties title and link are required
+ **/
+function applaunch_get_shortcuts($defaultitem) {
+    global $COURSE;
+    $types = [$defaultitem];
+    $apptypes = \mod_applaunch\app_type::get_records(['enabled' => 1]);
+    foreach ($apptypes as $apptype) {
+        $types[] = (object) [
+            'name' => 'applaunch_app_type_' . $apptype->get('id'),
+            'title' => $apptype->get('name'),
+            'icon' => $apptype->get_icon_html(),
+            'link' => new moodle_url('/course/modedit.php', [
+                'add' => 'applaunch',
+                'return' => 0,
+                'course' => $COURSE->id,
+                'sr' => $defaultitem->link->param('sr'),
+                'apptypeid' => $apptype->get('id')
+            ]),
+            'help' => $apptype->get('description'),
+        ];
+    }
+    return $types;
 }
 
 /**

@@ -56,7 +56,12 @@ class app_type_form extends persistent {
         $mform->addRule('url', null, 'required', null, 'client');
 
         $mform->addElement('checkbox', 'enabled', get_string('form:app_type:enabled', 'applaunch'));
-        $mform->setDefault('checkbox', 1);
+        $mform->setDefault('enabled', 1);
+
+        $mform->addElement('text', 'icon', get_string('form:app_type:icon', 'applaunch'), ['size' => '64']);
+        $mform->setType('icon', PARAM_URL);
+        $mform->setAdvanced('icon');
+        $mform->addHelpButton('icon', 'form:app_type:icon', 'applaunch');
 
         $this->add_action_buttons();
     }

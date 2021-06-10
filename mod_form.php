@@ -53,6 +53,12 @@ class mod_applaunch_mod_form extends moodleform_mod {
         $mform->setType('apptypeid', PARAM_INT);
         $mform->addRule('apptypeid', null, 'required', null, 'client');
 
+        // If apptypeid is provided by activity chooser, set it automatically.
+        $typeid = optional_param('apptypeid', 0, PARAM_INT);
+        if (!empty($typeid)) {
+            $mform->getElement('apptypeid')->setValue($typeid);
+        }
+
         $this->standard_coursemodule_elements();
         $this->apply_admin_defaults();
 
