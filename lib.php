@@ -144,6 +144,40 @@ function applaunch_get_shortcuts($defaultitem) {
 }
 
 /**
+ * Return the preconfigured tools which are configured for inclusion in the activity picker.
+ *
+ * @param \core_course\local\entity\content_item $defaultmodulecontentitem reference to the content item for the module.
+ * @param \stdClass $user the user object, to use for cap checks if desired.
+ * @param stdClass $course the course to scope items to.
+ * @return array the array of content items.
+ */
+function applaunch_get_course_content_items(\core_course\local\entity\content_item $defaultmodulecontentitem, \stdClass $user, \stdClass $course) {
+    $types = [$defaultmodulecontentitem];
+    $seqid = $defaultmodulecontentitem->get_id() + 1;
+    foreach (\mod_applaunch\app_type::get_records(['enabled' => 1]) as $apptype) {
+        $types[] = new \core_course\local\entity\content_item(
+            $seqid,
+            $apptype->get('name'),
+            new \core_course\local\entity\string_title($apptype->get('name')),
+            new moodle_url('/course/modedit.php', [
+                'add' => 'applaunch',
+                'return' => 0,
+                'course' => $course->id,
+                'sr' => $defaultmodulecontentitem->get_link()->param('sr'),
+                'apptypeid' => $apptype->get('id')
+            ]),
+            $apptype->get_icon_html(),
+            $apptype->get('description'),
+            $defaultmodulecontentitem->get_archetype(),
+            $defaultmodulecontentitem->get_component_name()
+        );
+        $seqid += 1; // Increment the id.
+    }
+
+    return $types;
+}
+
+/**
  * Obtains the automatic completion state for this module based on any conditions
  * in settings.
  *
