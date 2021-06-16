@@ -87,7 +87,8 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
         ]);
         $instance->save();
         // Set up activity relying on app type.
-        $applaunch = new \mod_applaunch\applaunch(0, (object) ['name' => 'Test Activity', 'apptypeid' => $instance->get('id')]);
+        $applaunch = new \mod_applaunch\applaunch(0, (object) ['name' => 'Test Activity', 'course' => 2,
+                'apptypeid' => $instance->get('id')]);
         $applaunch->save();
         $this->assertFalse($instance->can_delete());
     }

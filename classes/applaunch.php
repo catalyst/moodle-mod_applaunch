@@ -40,6 +40,9 @@ class applaunch extends \core\persistent {
                 'type' => PARAM_TEXT,
                 'default' => '',
             ],
+            'course' => [
+                'type' => PARAM_INT,
+            ],
             'urlslug' => [
                 'type' => PARAM_TEXT,
                 'default' => '',

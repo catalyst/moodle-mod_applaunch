@@ -63,6 +63,7 @@ class restore_applaunch_activity_structure_step extends restore_activity_structu
      */
     protected function process_applaunch($data) {
         $data = (object) $data;
+        $data->course = $this->get_courseid(); // Set the course to the new course.
         $data->apptypeid = 0; // Set the app type id to empty. It will be updated once the apptype is processed.
         $data = $this->filter_default_persistent_fields($data);
         $newinstance = new \mod_applaunch\applaunch(0, $data);
