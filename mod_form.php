@@ -66,6 +66,29 @@ class mod_applaunch_mod_form extends moodleform_mod {
     }
 
     /**
+     * If there are errors return array of errors ("fieldname"=>"error message"),
+     * otherwise true if ok.
+     *
+     * Server side rules do not work for uploaded files, implement serverside rules here if needed.
+     *
+     * @param array $data array of ("fieldname"=>value) of submitted data
+     * @param array $files array of uploaded files "element_name"=>tmp_file_path
+     * @return array of "element_name"=>"error_description" if there are errors,
+     *         or an empty array if everything is OK (true allowed for backwards compatibility too).
+     */
+    public function validation($data, $files) {
+        $errors = parent::validation($data, $files);
+        if (isset($data['apptypeid'])) {
+            if (empty($data['apptypeid'])) {
+                $errors['apptypeid'] = get_string('error:apptypenotselected', 'applaunch');
+            } else if (\mod_applaunch\app_type::get_record(['id' => $data['apptypeid'], 'enabled' => 1]) === false) {
+                $errors['apptypeid'] = get_string('error:apptypenotexists', 'applaunch');
+            }
+        }
+        return $errors;
+    }
+
+    /**
      * Add any custom completion rules to the form.
      *
      * @return array Contains the names of the added form elements.
