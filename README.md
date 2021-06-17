@@ -21,6 +21,15 @@ Branches
 | Totara up to 11   | MOODLE_39_STABLE | 7.1+ |
 
 
+Setup
+--------
+
+The `webservice/{name}:use` capability for all users that are using this plugin. As a catch all method, you can enable this capability for the *Authenticated user* role. If you require less access to this capability, you could create a new role based on the student archetype with this capability enabled. New users could then be enrolled in the course containing the applaunch activity with new role.
+
+To create or modify a role, go to `Site administration` -> `Users` -> `Define roles`.
+
+If using the rest protocol, the capability would be called `webservice/rest:user`.
+
 Support
 -------
 
