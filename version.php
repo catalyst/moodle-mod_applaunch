@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2021061000;
+$plugin->version = 2021061500;
 $plugin->release = 2021061000; // Match release exactly to version.
 $plugin->requires = 2017051500; // T12.
 $plugin->component = 'mod_applaunch';

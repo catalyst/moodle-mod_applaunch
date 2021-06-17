@@ -40,6 +40,9 @@ class applaunch extends \core\persistent {
                 'type' => PARAM_TEXT,
                 'default' => '',
             ],
+            'course' => [
+                'type' => PARAM_INT,
+            ],
             'urlslug' => [
                 'type' => PARAM_TEXT,
                 'default' => '',
@@ -54,10 +57,31 @@ class applaunch extends \core\persistent {
         ];
     }
 
+    /**
+     * Validate the apptypeid.
+     *
+     * @return bool|\lang_string
+     * @throws \coding_exception
+     */
+    protected function validate_apptypeid() {
+        // Check that the app type exists and is enabled.
+        $apptype = app_type::get_record(['id' => $this->get('apptypeid'), 'enabled' => 1]);
+        if (empty($apptype)) {
+            return new \lang_string('error:apptypenotexists', 'applaunch');
+        }
+        return true;
+    }
+
+    /**
+     * Called before instance is created.
+     */
     protected function before_create() {
         $this->before_save();
     }
 
+    /**
+     * Called before instance is updated.
+     */
     protected function before_update() {
         $this->before_save();
     }

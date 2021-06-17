@@ -34,6 +34,8 @@ $string['applaunch:addinstance'] = 'Add instance';
 $string['applaunch:manageapptypes'] = 'Manage app types';
 $string['applaunch:view'] = 'View';
 
+$string['error:apptypenotexists'] = 'App type is not enabled or does not exist.';
+$string['error:apptypenotselected'] = 'A valid app type is not selected.';
 $string['error:launchdirectaccess'] = 'Direct access to this page is not allowed. Return to your activity to access this page.';
 $string['error:sitecompletionnotenabled'] = 'Completion is not enabled for site.';
 $string['error:activitycompletionnotenabled'] = 'Completion is not enabled for activity.';
