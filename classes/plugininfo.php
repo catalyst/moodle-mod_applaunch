@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Admin settings for plugin.
+ * Define the activity plugin info. If not defined here, it will be handled by the activity level class.
  *
  * @package    mod_applaunch
  * @author     Andrew Madden <andrewmadden@catalyst-au.net>
@@ -23,18 +23,31 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_applaunch;
+
 defined('MOODLE_INTERNAL') || die();
 
-$ADMIN->add('modsettings', new admin_category('modapplaunchsettings', new lang_string('pluginname', 'applaunch')));
-$settings = null; // Tell core we have managed the settings pages ourselves.
+class plugininfo extends \core\plugininfo\mod {
 
-if (has_capability('mod/applaunch:manageapptypes', context_system::instance())) {
-    $ADMIN->add(\mod_applaunch\plugininfo::SETTINGS_CATEGORY,
-        new admin_externalpage(
-            'mod_applaunch/app_type',
-            get_string('setting:manage_app_types', 'applaunch'),
-            new moodle_url('/mod/applaunch/app_type.php', ['action' => 'view']),
-            'mod/applaunch:manageapptypes'
-        )
-    );
+    const SETTINGS_CATEGORY = 'modapplaunchsettings';
+
+    /**
+     * Returns the URL of the plugin settings screen
+     *
+     * Null value means that the plugin either does not have the settings screen
+     * or its location is not available via this library.
+     *
+     * @return null|\moodle_url
+     */
+    public function get_settings_url() {
+        global $CFG;
+        require_once($CFG->libdir . '/adminlib.php');
+
+        $settings = admin_get_root()->locate(self::SETTINGS_CATEGORY);
+        if ($settings && $settings instanceof \admin_category) {
+            return new \moodle_url('/admin/category.php', array('category' => self::SETTINGS_CATEGORY));
+        } else {
+            return parent::get_settings_url();
+        }
+    }
 }

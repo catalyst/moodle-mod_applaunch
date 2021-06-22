@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Admin settings for plugin.
+ * Test the plugininfo class.
  *
  * @package    mod_applaunch
  * @author     Andrew Madden <andrewmadden@catalyst-au.net>
@@ -25,16 +25,23 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$ADMIN->add('modsettings', new admin_category('modapplaunchsettings', new lang_string('pluginname', 'applaunch')));
-$settings = null; // Tell core we have managed the settings pages ourselves.
+class mod_applaunch_plugininfo_testcase extends advanced_testcase {
 
-if (has_capability('mod/applaunch:manageapptypes', context_system::instance())) {
-    $ADMIN->add(\mod_applaunch\plugininfo::SETTINGS_CATEGORY,
-        new admin_externalpage(
-            'mod_applaunch/app_type',
-            get_string('setting:manage_app_types', 'applaunch'),
-            new moodle_url('/mod/applaunch/app_type.php', ['action' => 'view']),
-            'mod/applaunch:manageapptypes'
-        )
-    );
+    /**
+     * This method runs before every test.
+     */
+    public function setUp(): void {
+        $this->resetAfterTest();
+    }
+
+    /**
+     * Test get_settings_url returns a link to the category page.
+     */
+    public function test_category_settings_url_is_returned() {
+        $this->setAdminUser();
+        $plugininfo = new \mod_applaunch\plugininfo();
+        $url = $plugininfo->get_settings_url();
+        $expected = new moodle_url('/admin/category.php', ['category' => 'modapplaunchsettings']);
+        $this->assertEquals($expected->out(), $url->out());
+    }
 }
