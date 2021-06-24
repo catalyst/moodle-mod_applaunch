@@ -74,11 +74,13 @@ $string['form:app_type:url_help'] = 'This URL will be used to attempt to open th
 
 $string['launch:description'] = 'The application should open automatically. If not, click on the link below.';
 
-$string['setting:manage_app_types'] = "Manage app types";
 $string['setting:addapptype'] = "Add app type";
-$string['setting:newapptype'] = 'New app type';
-$string['setting:editapptype'] = 'Edit app type';
 $string['setting:cantdelete'] = 'Deleting the app type is not allowed. It may be in use by existing activities.';
+$string['setting:editapptype'] = 'Edit app type';
+$string['setting:manage_app_types'] = "Manage app types";
+$string['setting:newapptype'] = 'New app type';
+$string['setting:nosettings'] = 'There are currently no site settings for this plugin. See all settings for this plugin here: '
+        . "<a href=" . '{$a}' . ">App launcher settings</a>";
 
 $string['table:name'] = 'Name';
 $string['table:description'] = 'Description';
