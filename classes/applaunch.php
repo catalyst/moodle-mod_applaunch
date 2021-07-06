@@ -102,10 +102,14 @@ class applaunch extends \core\persistent {
      * @return string
      */
     public function get_url(string $token): string {
+        global $CFG;
         $apptype = new app_type($this->get('apptypeid'));
         $urlstring = $apptype->get('url') . $this->get('urlslug');
         $url  = new \moodle_url($urlstring);
-        $url->params(['token' => $token]);
+        $url->params([
+            'token' => $token,
+            'baseuri' => $CFG->wwwroot,
+        ]);
         return $url->out(false);
     }
 
