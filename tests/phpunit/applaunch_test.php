@@ -118,7 +118,7 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
             'apptypeid' => $this->apptype->get('id'),
             'completionexternal' => 1]);
         $instance->save();
-        $expected = 'fake://test.com?test=1&token=123';
+        $expected = 'fake://test.com?test=1&token=123&baseuri=https%3A%2F%2Fwww.example.com%2Fmoodle';
         $url = $instance->get_url('123');
         $this->assertEquals($expected, $url);
     }
