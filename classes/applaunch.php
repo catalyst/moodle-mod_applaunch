@@ -31,6 +31,8 @@ class applaunch extends \core\persistent {
 
     const TABLE = 'applaunch';
 
+    const MODULE_NAME = 'applaunch';
+
     protected static function define_properties() {
         return [
             'name' => [

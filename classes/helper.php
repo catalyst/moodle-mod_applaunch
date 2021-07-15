@@ -51,4 +51,14 @@ class helper {
             $options
         );
     }
+
+    /**
+     * Define some default constants if they are not already defined.
+     */
+    public static function define_default_constants() {
+        // Define Totara constants to retain compatibility for Moodle.
+        if (!defined('FEATURE_ARCHIVE_COMPLETION')) {
+            define('FEATURE_ARCHIVE_COMPLETION', 'archive_completion');
+        }
+    }
 }
