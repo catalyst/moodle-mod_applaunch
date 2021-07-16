@@ -6,8 +6,6 @@ The administrator can define multiple different types of applications and these 
 in the activity chooser with their own icons and names, similar to the way LTI plugin.
 
 
-
-
 Branches
 --------
 
@@ -26,33 +24,34 @@ To create or modify a role, go to `Site administration` -> `Users` -> `Define ro
 
 If using the rest protocol, the capability would be called `webservice/rest:user`.
 
-Configring an application schema
+Configuring an application schema
 --------------------------------
 
 1) Lets assume your desktop app has a schema of 'foobar://'
-2) Navigate to Admin > blah
-3) 3) Add record
+2) Navigate to Admin > Plugins > Activities > App Launcher > Manage app types
+3) Create or edit an app type. Under 'URL', add the schema with any part of the url that would be used by any course. E.g. 'foobar://activity.run'
+4) Go to a course, and create or edit an applauncher activity with the same app type. Under 'URL slug', and a string to be appended to the url that is specific for the course. This is options. E.g. '/course/123
 
 
 The url scheme interface
 ------------------------
 
-When a learning clicks on a link to open your app it will pass through two query params:
+When a learner clicks on a link to open your app it will pass through two query params:
 
 ```
-foobar://test.com?token=xxxx&baseuri=https://moodle.example.edu,
+foobar://test.com?token=xxxx&baseuri=https%3A%2F%2Fmoodle.example.edu,
 ```
 
 1) token - This is a single use token which the app must exchange in order to gain a normal Moodle Webservice token
-2) baseuri - This is the wwwroot of the Moodle instance that launched the app, which MUST be used for all communication back to Moodle
+2) baseuri - This is the wwwroot of the Moodle instance that launched the app, which MUST be used for all communication back to Moodle. Note that the value will be URL escaped
 
 Exchange single use token for WS key
 ------------------------------------
 
-To exchange the singke use token make a get request like this:
+To exchange the single use token make a GET request like this:
 
 ```
-[baseuri]]mod/applaunc/token.php?token=xxxxx
+[baseuri]mod/applaunc/token.php?token=xxxxx
 ```
 
 This will return a json document 
@@ -67,6 +66,32 @@ This will return a json document
 
 Mark as complete using Moodle webservice
 ----------------------------------------
+
+Look at the Moodle docs regarding the protocol that is being used for a more detailed outline of how to make a web service request to Moodle. An example for the REST protocol will be provided below. The key bits of information you need are:
+
+* wstoken: [provided in json from token.php]
+* wsfunction: mod_applaunch_complete_activity
+* activityslug: [provided in json from token.php]
+
+Rest example:
+Must use the POST protocol.
+
+```
+curl -d "wstoken=value1&wsfunction=mod_applaunch_complete_activity&moodlewsrestformat=json&activityslug=value2" -X POST https://www.moodle.com/webservice/rest/server.php
+```
+Calling this endpoint with the external function `archivecompletion` will mark the activity as complete for the user who clicked the launch button.
+
+On a success you will receieve (if JSON is selected for return format)
+
+```
+{"success": "true"}
+```
+
+If there is a failure, the format of the response will be:
+
+```
+{"exception":"dml_missing_record_exception","errorcode":"invalidrecordunknown","message":"An error message","debuginfo":"Extra debug info"}
+```
 
 A reference implementation
 --------------------------
