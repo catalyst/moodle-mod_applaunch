@@ -99,11 +99,15 @@ A reference implementation
 A reference implementation has been bundled as a standalone php CLI script which implements the single use token
 exchange and the callback to the Moodle webservice to mark the activity as complete.
 
-This can we configured
+This can be configured
 
 ### Ubuntu / Linux
 
 To setup a new custom url schema TBA
+
+This guide can be followed to set up a specific app or script to be run, when a custom schema is detected.
+
+https://unix.stackexchange.com/questions/497146/create-a-custom-url-protocol-handler
 
 
 ### Windows
