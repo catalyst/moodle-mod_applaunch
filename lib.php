@@ -71,7 +71,11 @@ function applaunch_delete_instance($id) {
  * @return mixed True if yes (some features may use other values)
  */
 function applaunch_supports($feature) {
+    // Define any constants that may be missing.
+    \mod_applaunch\helper::define_default_constants();
+
     switch($feature) {
+        case FEATURE_ARCHIVE_COMPLETION:
         case FEATURE_BACKUP_MOODLE2:
         case FEATURE_COMPLETION_HAS_RULES:
             return true;
@@ -198,4 +202,38 @@ function applaunch_get_completion_state($course, $cm, $userid, $type) {
     // Check completion for user.
     $completion = completion::get_by_userid_and_cmid($userid, $cm->id);
     return !empty($completion->get('state'));
+}
+
+/**
+ * Delete completion records
+ *
+ * @internal This function should only be used by the course archiving API.
+ *           It should never invalidate grades or activity completion state as these
+ *           operations need to be performed in specific order and are done inside
+ *           the archive_course_activities() function.
+ *
+ * @param int $userid
+ * @param int $courseid
+ * @param int $windowopens
+ *
+ * @return boolean
+ */
+function applaunch_archive_completion($userid, $courseid, $windowopens = null) {
+    global $DB;
+
+    // Get list of applaunch course_modules to delete for user.
+    $modinfo = get_fast_modinfo($courseid);
+    $cmids = [];
+    foreach ($modinfo->get_cms() as $cm) {
+        if ($cm->modname === \mod_applaunch\applaunch::MODULE_NAME) {
+            $cmids[] = $cm->id;
+        }
+    }
+    if (empty($cmids)) {
+        return true; // No activities to delete.
+    }
+    // Bulk delete completion record for each activity for user. Use bulk SQL query to reduce load on DB.
+    list($insql, $inparams) = $DB->get_in_or_equal($cmids);
+    $params = array_merge([$userid], $inparams);
+    return $DB->delete_records_select('mod_applaunch_completion', "userid = ? AND cmid " . $insql, $params);
 }

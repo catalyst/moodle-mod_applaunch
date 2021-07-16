@@ -25,6 +25,7 @@
 
 use mod_applaunch\app_type;
 use mod_applaunch\applaunch;
+use mod_applaunch\completion;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -81,5 +82,82 @@ class mod_applaunch_lib_testcase extends advanced_testcase {
         $this->assertNotFalse(applaunch::get_record(['id' => $applaunch->id]));
         applaunch_delete_instance($applaunch->id);
         $this->assertFalse(applaunch::get_record(['id' => $applaunch->id]));
+    }
+
+    /**
+     * Test archive completion removes completion data for user.
+     */
+    public function test_applaunch_archive_completion() {
+        // Set up data.
+        $user = $this->getDataGenerator()->create_user();
+        $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
+        $this->getDataGenerator()->enrol_user($user->id, $course->id, 'student');
+        $applaunch = $this->getDataGenerator()->create_module('applaunch', ['course' => $course->id]);
+        $instance = new applaunch($applaunch->id);
+        $cm = $instance->get_cm();
+
+        // Check it isn't complete.
+        $completion = completion::get_by_userid_and_cmid($user->id, $cm->id);
+        $this->assertEquals(COMPLETION_INCOMPLETE, $completion->get('state'));
+
+        // Set completion to be complete.
+        $completion = completion::get_by_userid_and_cmid($user->id, $cm->id);
+        $completion->set('state', COMPLETION_COMPLETE);
+        $completion->save();
+
+        // Check it's completed.
+        $completion = completion::get_by_userid_and_cmid($user->id, $cm->id);
+        $this->assertEquals(COMPLETION_COMPLETE, $completion->get('state'));
+
+        // Archive completion.
+        applaunch_archive_completion($user->id, $course->id);
+
+        // Check it isn't complete.
+        $completion = completion::get_by_userid_and_cmid($user->id, $cm->id);
+        $this->assertEquals(COMPLETION_INCOMPLETE, $completion->get('state'));
+    }
+
+    /**
+     * Test archive completion removes completion data for only single user.
+     */
+    public function test_applaunch_archive_completion_with_multiple_users() {
+        // Set up data.
+        $user = $this->getDataGenerator()->create_user();
+        $user2 = $this->getDataGenerator()->create_user();
+        $course = $this->getDataGenerator()->create_course(['enablecompletion' => 1]);
+        $this->getDataGenerator()->enrol_user($user->id, $course->id, 'student');
+        $this->getDataGenerator()->enrol_user($user2->id, $course->id, 'student');
+        $applaunch = $this->getDataGenerator()->create_module('applaunch', ['course' => $course->id]);
+        $instance = new applaunch($applaunch->id);
+        $cm = $instance->get_cm();
+
+        // Check it isn't complete for both users.
+        $completion = completion::get_by_userid_and_cmid($user->id, $cm->id);
+        $this->assertEquals(COMPLETION_INCOMPLETE, $completion->get('state'));
+        $completion = completion::get_by_userid_and_cmid($user2->id, $cm->id);
+        $this->assertEquals(COMPLETION_INCOMPLETE, $completion->get('state'));
+
+        // Set completion to be complete for both users.
+        $completion = completion::get_by_userid_and_cmid($user->id, $cm->id);
+        $completion->set('state', COMPLETION_COMPLETE);
+        $completion->save();
+        $completion = completion::get_by_userid_and_cmid($user2->id, $cm->id);
+        $completion->set('state', COMPLETION_COMPLETE);
+        $completion->save();
+
+        // Check it's completed for both users.
+        $completion = completion::get_by_userid_and_cmid($user->id, $cm->id);
+        $this->assertEquals(COMPLETION_COMPLETE, $completion->get('state'));
+        $completion = completion::get_by_userid_and_cmid($user2->id, $cm->id);
+        $this->assertEquals(COMPLETION_COMPLETE, $completion->get('state'));
+
+        // Archive completion for first user only.
+        applaunch_archive_completion($user->id, $course->id);
+
+        // Check it isn't complete for first user only.
+        $completion = completion::get_by_userid_and_cmid($user->id, $cm->id);
+        $this->assertEquals(COMPLETION_INCOMPLETE, $completion->get('state'));
+        $completion = completion::get_by_userid_and_cmid($user2->id, $cm->id);
+        $this->assertEquals(COMPLETION_COMPLETE, $completion->get('state'));
     }
 }
