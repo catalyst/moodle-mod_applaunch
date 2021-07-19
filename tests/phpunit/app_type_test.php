@@ -118,6 +118,42 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
         $this->assertEquals($expected, $instance->get_icon_html());
     }
 
+    public function test_get_default_icon_url() {
+        $instance = new \mod_applaunch\app_type(0, (object) [
+            'name' => 'Test App',
+            'description' => 'Test description',
+            'url' => 'fake://test.com',
+            'icon' => '',
+            'enabled' => 1
+        ]);
+        $this->assertNull($instance->get_icon_url());
+    }
+
+    public function test_get_custom_icon_url() {
+        $iconurl = 'https://icon.com';
+        $instance = new \mod_applaunch\app_type(0, (object) [
+            'name' => 'Test App',
+            'description' => 'Test description',
+            'url' => 'fake://test.com',
+            'icon' => $iconurl,
+            'enabled' => 1
+        ]);
+        $this->assertEquals(new moodle_url($iconurl), $instance->get_icon_url());
+    }
+
+    public function test_get_default_icon_url_when_custom_url_is_invalid() {
+        $iconurl = 'http:///invalid.url';
+        $instance = new \mod_applaunch\app_type(0, (object) [
+            'name' => 'Test App',
+            'description' => 'Test description',
+            'url' => 'fake://test.com',
+            'icon' => $iconurl,
+            'enabled' => 1
+        ]);
+        $this->assertNull($instance->get_icon_url());
+        $this->assertDebuggingCalled('Invalid URL', DEBUG_DEVELOPER);
+    }
+
     public function instance_data_provider(): array {
         return [
             'All data' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'url' => 'fake://test.com',

@@ -110,4 +110,24 @@ class app_type extends \core\persistent {
 
         return \html_writer::empty_tag('img', array('src' => $this->get('icon'), 'alt' => $this->get('name') . ' icon'));
     }
+
+    /**
+     * Get the url for the icon for this app type.
+     *
+     * @return null|\moodle_url Returns null if no custom URL found.
+     */
+    public function get_icon_url(): ?\moodle_url {
+
+        if (empty($this->get('icon'))) {
+            return null;
+        }
+
+        // Try and return URL as a moodle_url. If not possible, return null with a debugging message.
+        try {
+            return new \moodle_url($this->get('icon'));
+        } catch (\moodle_exception $e) {
+            debugging($e->getMessage(), DEBUG_DEVELOPER, $e->getTrace());
+            return null;
+        }
+    }
 }

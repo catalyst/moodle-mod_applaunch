@@ -237,3 +237,21 @@ function applaunch_archive_completion($userid, $courseid, $windowopens = null) {
     $params = array_merge([$userid], $inparams);
     return $DB->delete_records_select('mod_applaunch_completion', "userid = ? AND cmid " . $insql, $params);
 }
+
+/**
+ * Sets dynamic information about a course module
+ *
+ * This callback is called from cm_info when checking module availability (incl. $cm->uservisible)
+ *
+ * As each app type may include it's own icon url, allow the icon url to be dynamically set based on the app type. If using
+ * the default icon, do nothing.
+ *
+ * @param cm_info $cm
+ */
+function applaunch_cm_info_dynamic(cm_info $cm) {
+    $applaunch = \mod_applaunch\applaunch::get_by_cmid($cm->id);
+    $iconurl = $applaunch->get_icon_url();
+    if ($iconurl !== null) {
+        $cm->set_icon_url($iconurl);
+    }
+}

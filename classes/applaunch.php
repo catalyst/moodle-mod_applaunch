@@ -154,11 +154,37 @@ class applaunch extends \core\persistent {
     }
 
     /**
+     * Get the url for the icon for this instance's app type.
+     *
+     * @return null|\moodle_url
+     */
+    public function get_icon_url(): ?\moodle_url {
+        $apptype = app_type::get_record(['id' => $this->get('apptypeid')]);
+        if ($apptype === false) {
+            return null; // This should not be possible when creating activity in the UI.
+        }
+        return $apptype->get_icon_url();
+    }
+
+    /**
      * Check if external completion is enabled.
      *
      * @return bool True if enabled.
      */
     public function is_external_completion_enabled(): bool {
         return !empty($this->get('completionexternal'));
+    }
+
+
+    /**
+     * Get an instance of applaunch from a cmid.
+     *
+     * @param string $cmid Course module id.
+     * @return self Instance of applaunch.
+     * @throws \dml_exception
+     */
+    public static function get_by_cmid(string $cmid): self {
+        list($course, $cm) = get_course_and_cm_from_cmid($cmid, 'applaunch');
+        return new applaunch($cm->instance);
     }
 }
