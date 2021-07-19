@@ -184,6 +184,58 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
     }
 
     /**
+     * Test getting an applaunch instance by cmid.
+     */
+    public function test_get_by_cmid() {
+        $course = $this->getDataGenerator()->create_course();
+        $applaunch = $this->getDataGenerator()->create_module('applaunch', ['course' => $course->id, 'name' => 'Test name']);
+        $applaunchbycmid = applaunch::get_by_cmid($applaunch->cmid);
+        $applaunchbyid = new applaunch($applaunch->id);
+        $this->assertEquals($applaunchbyid, $applaunchbycmid);
+    }
+
+    /**
+     * Test getting an applaunch instance when cmid doesn't exist.
+     */
+    public function test_get_by_incorrect_cmid() {
+        $course = $this->getDataGenerator()->create_course();
+        $this->getDataGenerator()->create_module('applaunch', ['course' => $course->id, 'name' => 'Test name']);
+        $this->expectException(dml_missing_record_exception::class);
+        applaunch::get_by_cmid('123456789');
+    }
+
+    /**
+     * Test getting an icon url.
+     */
+    public function test_get_icon_url() {
+        $instance = new applaunch(0, (object) [
+            'name' => 'Test App',
+            'description' => 'Test description',
+            'course' => $this->course->id,
+            'urlslug' => '?test=1',
+            'apptypeid' => $this->apptype->get('id'),
+            'completionexternal' => 1]);
+        $instance->save();
+        $this->assertEquals($this->apptype->get_icon_url(), $instance->get_icon_url());
+    }
+
+    /**
+     * Test that there is no icon url, when there is no app type.
+     */
+    public function test_get_icon_url_with_no_app_type() {
+        $instance = new applaunch(0, (object) [
+            'name' => 'Test App',
+            'description' => 'Test description',
+            'course' => $this->course->id,
+            'urlslug' => '?test=1',
+            'apptypeid' => $this->apptype->get('id'),
+            'completionexternal' => 1]);
+        $instance->save();
+        $instance->set('apptypeid', 0);
+        $this->assertNull($instance->get_icon_url());
+    }
+
+    /**
      * Provide data to create valid applaunch instances.
      *
      * @return object[][]
