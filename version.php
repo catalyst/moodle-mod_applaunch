@@ -30,3 +30,5 @@ $plugin->release = 2021061000; // Match release exactly to version.
 $plugin->requires = 2017051500; // T12.
 $plugin->component = 'mod_applaunch';
 $plugin->maturity = MATURITY_ALPHA;
+
+$plugin->supported = [39, 401];
