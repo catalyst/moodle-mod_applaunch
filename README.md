@@ -1,4 +1,5 @@
 # moodle-mod_applaunch
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/catalyst/moodle-mod_applaunch/ci/main?label=ci)
 
 A moodle activity plugin to manage launching an external applications.
 
@@ -54,7 +55,7 @@ To exchange the single use token make a GET request like this:
 [baseuri]mod/applaunc/token.php?token=xxxxx
 ```
 
-This will return a json document 
+This will return a json document
 
 ```json
     wstoken => "xxxxx",
