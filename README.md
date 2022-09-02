@@ -25,6 +25,8 @@ To create or modify a role, go to `Site administration` -> `Users` -> `Define ro
 
 If using the rest protocol, the capability would be called `webservice/rest:user`.
 
+You will also need to enable and configure web services, including the protocols required such as REST. https://docs.moodle.org/en/Using_web_services
+
 Configuring an application schema
 --------------------------------
 
@@ -52,16 +54,17 @@ Exchange single use token for WS key
 To exchange the single use token make a GET request like this:
 
 ```
-[baseuri]mod/applaunc/token.php?token=xxxxx
+[baseuri]mod/applaunch/token.php?token=xxxxx
 ```
 
 This will return a json document
 
-```json
-    wstoken => "xxxxx",
-    errors: ""
-    baseurl: "https://moodle.example.edu"
-    activityslug": "/mod/applaunch/view.php?id=1234"
+```yaml
+{
+    "wstoken": "xxxxx",
+    "errors": "",
+    "baseurl": "https://moodle.example.edu",
+    "activityslug": "/mod/applaunch/view.php?id=1234"
 }
 ```
 
@@ -77,21 +80,26 @@ Look at the Moodle docs regarding the protocol that is being used for a more det
 Rest example:
 Must use the POST protocol.
 
-```
+```sh
 curl -d "wstoken=value1&wsfunction=mod_applaunch_complete_activity&moodlewsrestformat=json&activityslug=value2" -X POST https://www.moodle.com/webservice/rest/server.php
 ```
 Calling this endpoint with the external function `archivecompletion` will mark the activity as complete for the user who clicked the launch button.
 
 On a success you will receieve (if JSON is selected for return format)
 
-```
+```yaml
 {"success": "true"}
 ```
 
 If there is a failure, the format of the response will be:
 
-```
-{"exception":"dml_missing_record_exception","errorcode":"invalidrecordunknown","message":"An error message","debuginfo":"Extra debug info"}
+```yaml
+{
+    "exception": "dml_missing_record_exception",
+    "errorcode": "invalidrecordunknown",
+    "message": "An error message",
+    "debuginfo": "Extra debug info"
+}
 ```
 
 A reference implementation
