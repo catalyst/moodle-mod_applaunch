@@ -25,8 +25,6 @@
 
 use mod_applaunch\applaunch;
 
-defined('MOODLE_INTERNAL') || die();
-
 class backup_applaunch_activity_structure_step extends backup_activity_structure_step {
 
     /**

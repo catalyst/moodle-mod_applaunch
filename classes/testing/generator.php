@@ -38,7 +38,7 @@ final class generator extends \core\testing\mod_generator {
      * @return stdClass
      */
     public function create_instance($record = null, array $options = null) {
-        $record = (object)(array)$record;
+        $record = (object) (array) $record;
         $uniqueid = random_string(6);
 
         // Generate an app type.
@@ -51,12 +51,12 @@ final class generator extends \core\testing\mod_generator {
         $apptype->save();
 
         // Generate the applaunch instance.
-        $defaultsettings = array(
+        $defaultsettings = [
             'name' => 'App launcher ' . $uniqueid,
             'description' => '',
             'urlslug' => '',
             'apptypeid' => $apptype->get('id'),
-        );
+        ];
 
         foreach ($defaultsettings as $name => $value) {
             if (!isset($record->{$name})) {
@@ -64,6 +64,6 @@ final class generator extends \core\testing\mod_generator {
             }
         }
 
-        return parent::create_instance($record, (array)$options);
+        return parent::create_instance($record, (array) $options);
     }
 }

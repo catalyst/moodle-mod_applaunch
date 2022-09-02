@@ -26,8 +26,6 @@
 use core\persistent;
 use mod_applaunch\app_type;
 
-defined('MOODLE_INTERNAL') || die();
-
 class restore_applaunch_activity_structure_step extends restore_activity_structure_step {
 
     /** @var string[] Default fields generated internally by persistent objects. */

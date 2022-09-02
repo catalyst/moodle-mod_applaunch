@@ -29,8 +29,6 @@ use context_system;
 use core\event\base;
 use mod_applaunch\app_type;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Event for when a app_type is enabled.
  *
@@ -49,7 +47,7 @@ class app_type_enabled extends base {
      * @param context_system $context Context system.
      * @return base
      */
-    public static function create_strict(app_type $type, context_system $context) : base {
+    public static function create_strict(app_type $type, context_system $context): base {
         global $USER;
         $tid = $type->get('id');
 
@@ -105,8 +103,8 @@ class app_type_enabled extends base {
      *
      * @return array Mapping of object id.
      */
-    public static function get_objectid_mapping() : array {
-        return array('db' => 'mod_applaunch_app_type', 'restore' => 'mod_applaunch_app_type');
+    public static function get_objectid_mapping(): array {
+        return ['db' => 'mod_applaunch_app_type', 'restore' => 'mod_applaunch_app_type'];
     }
 
     /**
@@ -115,7 +113,7 @@ class app_type_enabled extends base {
      *
      * @return array List of mapping of other ids.
      */
-    public static function get_other_mapping() : array {
+    public static function get_other_mapping(): array {
         return [];
     }
 }

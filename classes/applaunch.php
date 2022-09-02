@@ -25,8 +25,6 @@
 
 namespace mod_applaunch;
 
-defined('MOODLE_INTERNAL') || die();
-
 class applaunch extends \core\persistent {
 
     const TABLE = 'applaunch';
@@ -35,23 +33,17 @@ class applaunch extends \core\persistent {
 
     protected static function define_properties() {
         return [
-            'name' => [
-                'type' => PARAM_TEXT,
-            ],
+            'name' => ['type' => PARAM_TEXT],
             'description' => [
                 'type' => PARAM_TEXT,
                 'default' => '',
             ],
-            'course' => [
-                'type' => PARAM_INT,
-            ],
+            'course' => ['type' => PARAM_INT],
             'urlslug' => [
                 'type' => PARAM_TEXT,
                 'default' => '',
             ],
-            'apptypeid' => [
-                'type' => PARAM_INT,
-            ],
+            'apptypeid' => ['type' => PARAM_INT],
             'completionexternal' => [
                 'type' => PARAM_BOOL,
                 'default' => true,
@@ -174,7 +166,6 @@ class applaunch extends \core\persistent {
     public function is_external_completion_enabled(): bool {
         return !empty($this->get('completionexternal'));
     }
-
 
     /**
      * Get an instance of applaunch from a cmid.

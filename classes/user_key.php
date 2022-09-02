@@ -25,32 +25,30 @@
 
 namespace mod_applaunch;
 
-defined('MOODLE_INTERNAL') || die();
-
 class user_key {
 
-    /** @var int $id */
+    /** @var int */
     private $id;
 
-    /** @var string $script */
+    /** @var string */
     private $script;
 
-    /** @var string $value */
+    /** @var string */
     private $value;
 
-    /** @var int $userid */
+    /** @var int */
     private $userid;
 
-    /** @var int $instance */
+    /** @var int */
     private $instance;
 
-    /** @var string $iprestriction */
+    /** @var string */
     private $iprestriction;
 
-    /** @var int $validuntil */
+    /** @var int */
     private $validuntil;
 
-    /** @var int $timecreated */
+    /** @var int */
     private $timecreated;
 
     /**

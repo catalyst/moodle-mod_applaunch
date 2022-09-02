@@ -23,9 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace mod_applaunch;
 
-class mod_applaunch_app_type_testcase extends advanced_testcase {
+class app_type_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
@@ -55,7 +55,7 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
             'description' => 'Test description',
             'url' => 'fake://test.com   ',
             'icon' => '  https://icon.com ',
-            'enabled' => 1
+            'enabled' => 1,
         ]);
         $instance->save();
         $records = $DB->get_records('mod_applaunch_app_types');
@@ -71,7 +71,7 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
             'description' => 'Test description',
             'url' => 'fake://test.com',
             'icon' => 'https://icon.com',
-            'enabled' => 1
+            'enabled' => 1,
         ]);
         $instance->save();
         $this->assertTrue($instance->can_delete());
@@ -83,12 +83,14 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
             'description' => 'Test description',
             'url' => 'fake://test.com',
             'icon' => 'https://icon.com',
-            'enabled' => 1
+            'enabled' => 1,
         ]);
         $instance->save();
         // Set up activity relying on app type.
-        $applaunch = new \mod_applaunch\applaunch(0, (object) ['name' => 'Test Activity', 'course' => 2,
-                'apptypeid' => $instance->get('id')]);
+        $applaunch = new \mod_applaunch\applaunch(0, (object) [
+            'name' => 'Test Activity', 'course' => 2,
+            'apptypeid' => $instance->get('id'),
+        ]);
         $applaunch->save();
         $this->assertFalse($instance->can_delete());
     }
@@ -99,7 +101,7 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
             'name' => 'Test App',
             'description' => 'Test description',
             'url' => 'fake://test.com',
-            'enabled' => 1
+            'enabled' => 1,
         ]);
         $expected = $OUTPUT->pix_icon('icon', $instance->get('name') . ' icon', 'applaunch');
         $this->assertEquals($expected, $instance->get_icon_html());
@@ -113,7 +115,7 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
             'description' => 'Test description',
             'url' => 'fake://test.com',
             'icon' => $iconurl,
-            'enabled' => 1
+            'enabled' => 1,
         ]);
         $this->assertEquals($expected, $instance->get_icon_html());
     }
@@ -124,7 +126,7 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
             'description' => 'Test description',
             'url' => 'fake://test.com',
             'icon' => '',
-            'enabled' => 1
+            'enabled' => 1,
         ]);
         $this->assertNull($instance->get_icon_url());
     }
@@ -136,9 +138,9 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
             'description' => 'Test description',
             'url' => 'fake://test.com',
             'icon' => $iconurl,
-            'enabled' => 1
+            'enabled' => 1,
         ]);
-        $this->assertEquals(new moodle_url($iconurl), $instance->get_icon_url());
+        $this->assertEquals(new \moodle_url($iconurl), $instance->get_icon_url());
     }
 
     public function test_get_default_icon_url_when_custom_url_is_invalid() {
@@ -148,7 +150,7 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
             'description' => 'Test description',
             'url' => 'fake://test.com',
             'icon' => $iconurl,
-            'enabled' => 1
+            'enabled' => 1,
         ]);
         $this->assertNull($instance->get_icon_url());
         $this->assertDebuggingCalled('Invalid URL', DEBUG_DEVELOPER);
@@ -156,12 +158,34 @@ class mod_applaunch_app_type_testcase extends advanced_testcase {
 
     public function instance_data_provider(): array {
         return [
-            'All data' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'url' => 'fake://test.com',
-                    'icon' => 'https://icon.com', 'enabled' => 1]],
-            'All data with no description' => [(object) ['name' => 'Test App', 'url' => 'fake://test.com', 'icon' => 'https://icon.com', 'enabled' => 1]],
-            'All data with no icon' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'url' => 'fake://test.com', 'enabled' => 1]],
-            'All data with no enabled' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'url' => 'fake://test.com',
-                    'icon' => 'https://icon.com']],
+            'All data' => [
+                (object) [
+                    'name' => 'Test App', 'description' => 'Test description', 'url' => 'fake://test.com',
+                    'icon' => 'https://icon.com', 'enabled' => 1,
+                ],
+            ],
+            'All data with no description' => [
+                (object) [
+                    'name' => 'Test App',
+                    'url' => 'fake://test.com',
+                    'icon' => 'https://icon.com',
+                    'enabled' => 1,
+                ],
+            ],
+            'All data with no icon' => [
+                (object) [
+                    'name' => 'Test App',
+                    'description' => 'Test description',
+                    'url' => 'fake://test.com',
+                    'enabled' => 1,
+                ],
+            ],
+            'All data with no enabled' => [
+                (object) [
+                    'name' => 'Test App', 'description' => 'Test description', 'url' => 'fake://test.com',
+                    'icon' => 'https://icon.com',
+                ],
+            ],
         ];
     }
 }

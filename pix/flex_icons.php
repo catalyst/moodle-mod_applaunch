@@ -27,12 +27,10 @@ defined('MOODLE_INTERNAL') || die();
 
 /* Developer documentation is in /pix/flex_icons.php file. */
 
-$icons = array(
+$icons = [
     'mod_applaunch|icon' =>
-        array(
+        [
             'data' =>
-                array(
-                    'classes' => 'fa-rocket',
-                ),
-        ),
-);
+                ['classes' => 'fa-rocket'],
+        ],
+];

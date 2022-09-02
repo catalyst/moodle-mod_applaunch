@@ -25,8 +25,6 @@
 
 namespace mod_applaunch;
 
-defined('MOODLE_INTERNAL') || die();
-
 class plugininfo extends \core\plugininfo\mod {
 
     const SETTINGS_CATEGORY = 'modapplaunchsettings';
@@ -45,7 +43,7 @@ class plugininfo extends \core\plugininfo\mod {
 
         $settings = admin_get_root()->locate(self::SETTINGS_CATEGORY);
         if ($settings && $settings instanceof \admin_category) {
-            return new \moodle_url('/admin/category.php', array('category' => self::SETTINGS_CATEGORY));
+            return new \moodle_url('/admin/category.php', ['category' => self::SETTINGS_CATEGORY]);
         } else {
             return parent::get_settings_url();
         }

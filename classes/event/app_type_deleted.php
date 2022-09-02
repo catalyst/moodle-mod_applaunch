@@ -28,8 +28,6 @@ namespace mod_applaunch\event;
 use context_system;
 use core\event\base;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Event for when a app_type is deleted.
  *
@@ -48,7 +46,7 @@ class app_type_deleted extends base {
      * @param context_system $context Context system.
      * @return base
      */
-    public static function create_strict(string $id, context_system $context) : base {
+    public static function create_strict(string $id, context_system $context): base {
         global $USER;
 
         return self::create([
@@ -99,8 +97,8 @@ class app_type_deleted extends base {
      *
      * @return array Mapping of object id.
      */
-    public static function get_objectid_mapping() : array {
-        return array('db' => 'mod_applaunch_app_type', 'restore' => 'mod_applaunch_app_type');
+    public static function get_objectid_mapping(): array {
+        return ['db' => 'mod_applaunch_app_type', 'restore' => 'mod_applaunch_app_type'];
     }
 
     /**
@@ -109,7 +107,7 @@ class app_type_deleted extends base {
      *
      * @return array List of mapping of other ids.
      */
-    public static function get_other_mapping() : array {
+    public static function get_other_mapping(): array {
         return [];
     }
 }

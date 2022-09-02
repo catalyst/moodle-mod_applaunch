@@ -25,8 +25,6 @@
 
 use mod_applaunch\completion;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Create an applaunch instance.
  *
@@ -74,7 +72,7 @@ function applaunch_supports($feature) {
     // Define any constants that may be missing.
     \mod_applaunch\helper::define_default_constants();
 
-    switch($feature) {
+    switch ($feature) {
         case FEATURE_ARCHIVE_COMPLETION:
         case FEATURE_BACKUP_MOODLE2:
         case FEATURE_COMPLETION_HAS_RULES:
@@ -139,7 +137,7 @@ function applaunch_get_shortcuts($defaultitem) {
                 'return' => 0,
                 'course' => $COURSE->id,
                 'sr' => $defaultitem->link->param('sr'),
-                'apptypeid' => $apptype->get('id')
+                'apptypeid' => $apptype->get('id'),
             ]),
             'help' => $apptype->get('description'),
         ];
@@ -155,7 +153,11 @@ function applaunch_get_shortcuts($defaultitem) {
  * @param stdClass $course the course to scope items to.
  * @return array the array of content items.
  */
-function applaunch_get_course_content_items(\core_course\local\entity\content_item $defaultmodulecontentitem, \stdClass $user, \stdClass $course) {
+function applaunch_get_course_content_items(
+    \core_course\local\entity\content_item $defaultmodulecontentitem,
+    \stdClass $user,
+    \stdClass $course
+) {
     $types = [$defaultmodulecontentitem];
     $seqid = $defaultmodulecontentitem->get_id() + 1;
     foreach (\mod_applaunch\app_type::get_records(['enabled' => 1]) as $apptype) {
@@ -168,7 +170,7 @@ function applaunch_get_course_content_items(\core_course\local\entity\content_it
                 'return' => 0,
                 'course' => $course->id,
                 'sr' => $defaultmodulecontentitem->get_link()->param('sr'),
-                'apptypeid' => $apptype->get('id')
+                'apptypeid' => $apptype->get('id'),
             ]),
             $apptype->get_icon_html(),
             $apptype->get('description'),
@@ -235,7 +237,7 @@ function applaunch_archive_completion($userid, $courseid, $windowopens = null) {
     // Bulk delete completion record for each activity for user. Use bulk SQL query to reduce load on DB.
     list($insql, $inparams) = $DB->get_in_or_equal($cmids);
     $params = array_merge([$userid], $inparams);
-    return $DB->delete_records_select('mod_applaunch_completion', "userid = ? AND cmid " . $insql, $params);
+    return $DB->delete_records_select('mod_applaunch_completion', 'userid = ? AND cmid ' . $insql, $params);
 }
 
 /**

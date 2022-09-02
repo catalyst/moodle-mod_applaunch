@@ -49,9 +49,7 @@ list($options, $unrecognised) = cli_get_params([
     'help' => false,
     'url' => false,
     'token' => false,
-], [
-    'h' => 'help'
-]);
+], ['h' => 'help']);
 
 if ($unrecognised) {
     $unrecognised = implode(PHP_EOL.'  ', $unrecognised);

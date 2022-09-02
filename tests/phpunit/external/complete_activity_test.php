@@ -23,11 +23,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_applaunch;
+
 use mod_applaunch\external\complete_activity;
 
-defined('MOODLE_INTERNAL') || die();
-
-class mod_applaunch_complete_activity_testcase extends advanced_testcase {
+class complete_activity_test extends \advanced_testcase {
 
     /**
      * Run before every test.
@@ -59,7 +59,7 @@ class mod_applaunch_complete_activity_testcase extends advanced_testcase {
         $this->setUser($user);
 
         // Trigger external function.
-        $this->expectException(moodle_exception::class);
+        $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:sitecompletionnotenabled', 'applaunch'));
         complete_activity::execute('/mod/applaunch/view.php?id=' . $applaunch->cmid);
     }
@@ -87,7 +87,7 @@ class mod_applaunch_complete_activity_testcase extends advanced_testcase {
         $this->setUser($user);
 
         // Trigger external function.
-        $this->expectException(moodle_exception::class);
+        $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:activitycompletionnotenabled', 'applaunch'));
         complete_activity::execute('/mod/applaunch/view.php?id=' . $applaunch->cmid);
     }
@@ -113,7 +113,7 @@ class mod_applaunch_complete_activity_testcase extends advanced_testcase {
         $this->setUser($user);
 
         // Trigger external function.
-        $this->expectException(moodle_exception::class);
+        $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:activitycompletionnotenabled', 'applaunch'));
         complete_activity::execute('/mod/applaunch/view.php?id=' . $applaunch->cmid);
     }
@@ -140,7 +140,7 @@ class mod_applaunch_complete_activity_testcase extends advanced_testcase {
         $this->setUser($user);
 
         // Trigger external function.
-        $this->expectException(moodle_exception::class);
+        $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage(get_string('error:externalcompletionnotenabled', 'applaunch'));
         complete_activity::execute('/mod/applaunch/view.php?id=' . $applaunch->cmid);
     }
@@ -166,7 +166,7 @@ class mod_applaunch_complete_activity_testcase extends advanced_testcase {
         $this->setUser($user);
 
         // Check module is not complete.
-        $completioninfo = new completion_info($course);
+        $completioninfo = new \completion_info($course);
         $modcompletiondata = $completioninfo->get_data((object) ['id' => $applaunch->cmid], false, $user->id);
         $this->assertEquals(COMPLETION_INCOMPLETE, $modcompletiondata->completionstate);
 
@@ -175,7 +175,7 @@ class mod_applaunch_complete_activity_testcase extends advanced_testcase {
         $this->assertEquals(['success' => true], $response);
 
         // Check module is complete.
-        $completioninfo = new completion_info($course);
+        $completioninfo = new \completion_info($course);
         $modcompletiondata = $completioninfo->get_data((object) ['id' => $applaunch->cmid]);
         $this->assertEquals(COMPLETION_COMPLETE, $modcompletiondata->completionstate);
     }
