@@ -43,8 +43,11 @@ class applaunch_test extends \advanced_testcase {
         $this->resetAfterTest();
         $this->course = $this->getDataGenerator()->create_course();
         $this->apptype = new app_type(0, (object) [
-            'name' => 'Test App', 'description' => 'Test description',
-            'url' => 'fake://test.com', 'icon' => 'https://icon.com', 'enabled' => 1,
+            'name' => 'Test App',
+            'description' => 'Test description',
+            'url' => 'fake://test.com',
+            'icon' => 'https://icon.com',
+            'enabled' => 1,
         ]);
         $this->apptype->save();
     }
