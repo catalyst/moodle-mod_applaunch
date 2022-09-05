@@ -59,7 +59,7 @@ To exchange the single use token make a GET request like this:
 
 This will return a json document
 
-```yaml
+```json
 {
     "wstoken": "xxxxx",
     "errors": "",
@@ -87,13 +87,13 @@ Calling this endpoint with the external function `archivecompletion` will mark t
 
 On a success you will receieve (if JSON is selected for return format)
 
-```yaml
+```json
 {"success": "true"}
 ```
 
 If there is a failure, the format of the response will be:
 
-```yaml
+```json
 {
     "exception": "dml_missing_record_exception",
     "errorcode": "invalidrecordunknown",
