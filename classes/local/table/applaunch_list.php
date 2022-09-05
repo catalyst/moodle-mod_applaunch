@@ -30,8 +30,6 @@ use mod_applaunch\helper;
 use mod_applaunch\app_type;
 use mod_applaunch\app_type_controller;
 
-defined('MOODLE_INTERNAL') || die();
-
 class applaunch_list extends \flexible_table {
 
     /**
@@ -77,7 +75,7 @@ class applaunch_list extends \flexible_table {
      * @param applaunch $data Applaunch instance for this row.
      * @return string
      */
-    protected function col_name(applaunch $data) : string {
+    protected function col_name(applaunch $data): string {
         $cm = $data->get_cm();
         return \html_writer::link(
             new \moodle_url('/mod/applaunch/view.php', ['id' => $cm->id]),
@@ -91,7 +89,7 @@ class applaunch_list extends \flexible_table {
      * @param applaunch $data App type for this row.
      * @return string
      */
-    protected function col_description(applaunch $data) : string {
+    protected function col_description(applaunch $data): string {
         return $data->get('description');
     }
 
@@ -117,7 +115,7 @@ class applaunch_list extends \flexible_table {
      * @param applaunch $data App type for this row.
      * @return string
      */
-    protected function col_actions(applaunch $data) : string {
+    protected function col_actions(applaunch $data): string {
         $actions = [];
         $cm = $data->get_cm();
 

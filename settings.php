@@ -33,7 +33,7 @@ $ADMIN->add('modsettings', new admin_category(plugininfo::SETTINGS_CATEGORY, new
 $settings->add(new admin_setting_heading('main_heading',
         new lang_string('settings'),
         new lang_string('setting:nosettings', 'applaunch',
-                (new \moodle_url('/admin/category.php', array('category' => plugininfo::SETTINGS_CATEGORY)))->out())));
+                (new \moodle_url('/admin/category.php', ['category' => plugininfo::SETTINGS_CATEGORY]))->out())));
 $ADMIN->add(plugininfo::SETTINGS_CATEGORY, $settings);
 
 $settings = null; // Tell core we have managed the settings pages ourselves.

@@ -27,8 +27,6 @@ namespace mod_applaunch\local\form;
 
 use core\form\persistent;
 
-defined('MOODLE_INTERNAL') || die();
-
 class app_type_form extends persistent {
 
     protected static $persistentclass = 'mod_applaunch\\app_type';
@@ -47,10 +45,10 @@ class app_type_form extends persistent {
         $mform->addRule('name', null, 'required', null, 'client');
 
         $mform->addElement('textarea', 'description',
-                get_string('form:app_type:description', 'applaunch'), array('rows' => 4, 'cols' => 60));
+                get_string('form:app_type:description', 'applaunch'), ['rows' => 4, 'cols' => 60]);
         $mform->setType('description', PARAM_TEXT);
 
-        $mform->addElement('text', 'url', get_string('form:app_type:url', 'applaunch'), array('size' => '64'));
+        $mform->addElement('text', 'url', get_string('form:app_type:url', 'applaunch'), ['size' => '64']);
         $mform->setType('url', PARAM_RAW);
         $mform->addHelpButton('url', 'form:app_type:url', 'applaunch');
         $mform->addRule('url', null, 'required', null, 'client');

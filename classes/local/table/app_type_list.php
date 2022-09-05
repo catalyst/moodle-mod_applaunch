@@ -29,8 +29,6 @@ use mod_applaunch\helper;
 use mod_applaunch\app_type;
 use mod_applaunch\app_type_controller;
 
-defined('MOODLE_INTERNAL') || die();
-
 class app_type_list extends \flexible_table {
 
     /**
@@ -78,7 +76,7 @@ class app_type_list extends \flexible_table {
      * @param app_type $data App type for this row.
      * @return string
      */
-    protected function col_name(app_type $data) : string {
+    protected function col_name(app_type $data): string {
         return \html_writer::link(
             new \moodle_url(app_type_controller::get_base_url(), [
                 'id' => $data->get('id'),
@@ -94,7 +92,7 @@ class app_type_list extends \flexible_table {
      * @param app_type $data App type for this row.
      * @return string
      */
-    protected function col_description(app_type $data) : string {
+    protected function col_description(app_type $data): string {
         return $data->get('description');
     }
 
@@ -124,7 +122,7 @@ class app_type_list extends \flexible_table {
      * @param app_type $data App type for this row.
      * @return string
      */
-    protected function col_actions(app_type $data) : string {
+    protected function col_actions(app_type $data): string {
         $actions = [];
 
         $actions[] = helper::format_icon_link(

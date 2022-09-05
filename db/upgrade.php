@@ -23,8 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Upgrade this activity.
  * @param int $oldversion The old version of the plugin
@@ -36,7 +34,6 @@ function xmldb_applaunch_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2021061000) {
-
         // Add an 'icon' field to the 'mod_applaunch_app_types' table.
         $table = new xmldb_table('mod_applaunch_app_types');
         $field = new xmldb_field('icon', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'url');
@@ -50,7 +47,6 @@ function xmldb_applaunch_upgrade($oldversion) {
     }
 
     if ($oldversion < 2021061500) {
-
         // Add an 'course' field to the 'applaunch' table.
         $table = new xmldb_table('applaunch');
         $field = new xmldb_field('course', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, 0, 'id');

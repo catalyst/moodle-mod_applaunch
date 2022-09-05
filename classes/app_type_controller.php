@@ -34,8 +34,6 @@ use mod_applaunch\event\app_type_updated;
 use mod_applaunch\local\form\app_type_form;
 use mod_applaunch\local\table\app_type_list;
 
-defined('MOODLE_INTERNAL') || die();
-
 class app_type_controller {
     /**
      * View action.
@@ -92,7 +90,7 @@ class app_type_controller {
 
         $this->set_external_page();
 
-        switch($action) {
+        switch ($action) {
             case self::ACTION_ADD:
             case self::ACTION_EDIT:
                 $this->edit($action, optional_param('id', null, PARAM_INT));
@@ -150,7 +148,7 @@ class app_type_controller {
      * Returns a text for create new record button.
      * @return string
      */
-    protected function get_create_button_text() : string {
+    protected function get_create_button_text(): string {
         return get_string('setting:addapptype', 'applaunch');
     }
 
@@ -161,7 +159,7 @@ class app_type_controller {
      *
      * @return app_type_form
      */
-    protected function get_form($instance) : app_type_form {
+    protected function get_form($instance): app_type_form {
         global $PAGE;
 
         return new app_type_form($PAGE->url->out(false), ['persistent' => $instance]);
@@ -171,7 +169,7 @@ class app_type_controller {
      * View page heading string.
      * @return string
      */
-    protected function get_view_heading() : string {
+    protected function get_view_heading(): string {
         return get_string('setting:manage_app_types', 'applaunch');
     }
 
@@ -179,7 +177,7 @@ class app_type_controller {
      * New record heading string.
      * @return string
      */
-    protected function get_new_heading() : string {
+    protected function get_new_heading(): string {
         return get_string('setting:newapptype', 'applaunch');
     }
 
@@ -187,7 +185,7 @@ class app_type_controller {
      * Edit record heading string.
      * @return string
      */
-    protected function get_edit_heading() : string {
+    protected function get_edit_heading(): string {
         return get_string('setting:editapptype', 'applaunch');
     }
 
@@ -195,7 +193,7 @@ class app_type_controller {
      * Returns base URL for the manager.
      * @return string
      */
-    public static function get_base_url() : string {
+    public static function get_base_url(): string {
         return '/mod/applaunch/app_type.php';
     }
 

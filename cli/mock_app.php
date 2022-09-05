@@ -33,8 +33,8 @@ $help = "Command line tool to mock an app requesting a ws token and completing a
 
 Options:
     -h --help                   Print this help.
-    --url                       Launch URL
-    --token                     Temp token to obtain WS token.
+    -u --url                       Launch URL
+    -t --token                     Temp token to obtain WS token.
 
 Examples:
 
@@ -45,13 +45,18 @@ Examples:
         Executes test mocking an external app getting web service token and triggering completion of course module.
 ";
 
-list($options, $unrecognised) = cli_get_params([
-    'help' => false,
-    'url' => false,
-    'token' => false,
-], [
-    'h' => 'help'
-]);
+list($options, $unrecognised) = cli_get_params(
+    [
+        'help' => false,
+        'url' => false,
+        'token' => false,
+    ],
+    [
+        'h' => 'help',
+        'u' => 'url',
+        't' => 'token',
+    ]
+);
 
 if ($unrecognised) {
     $unrecognised = implode(PHP_EOL.'  ', $unrecognised);

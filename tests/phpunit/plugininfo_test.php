@@ -23,9 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace mod_applaunch;
 
-class mod_applaunch_plugininfo_testcase extends advanced_testcase {
+class plugininfo_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
@@ -41,7 +41,7 @@ class mod_applaunch_plugininfo_testcase extends advanced_testcase {
         $this->setAdminUser();
         $plugininfo = new \mod_applaunch\plugininfo();
         $url = $plugininfo->get_settings_url();
-        $expected = new moodle_url('/admin/category.php', ['category' => 'modapplaunchsettings']);
+        $expected = new \moodle_url('/admin/category.php', ['category' => 'modapplaunchsettings']);
         $this->assertEquals($expected->out(), $url->out());
     }
 }

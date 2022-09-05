@@ -25,8 +25,6 @@
 
 namespace mod_applaunch;
 
-defined('MOODLE_INTERNAL') || die();
-
 class app_type extends \core\persistent {
 
     /** @var string TABLE Moodle DB table storing instances of the class. */
@@ -39,16 +37,12 @@ class app_type extends \core\persistent {
      */
     protected static function define_properties() {
         return [
-            'name' => [
-                'type' => PARAM_TEXT,
-            ],
+            'name' => ['type' => PARAM_TEXT],
             'description' => [
                 'type' => PARAM_TEXT,
                 'default' => '',
             ],
-            'url' => [
-                'type' => PARAM_RAW, // PARAM_URL doesn't allow custom schemas.
-            ],
+            'url' => ['type' => PARAM_RAW], // PARAM_URL doesn't allow custom schemas.
             'icon' => [
                 'type' => PARAM_TEXT, // File name.
                 'null' => NULL_ALLOWED,
@@ -108,7 +102,7 @@ class app_type extends \core\persistent {
             return $default;
         }
 
-        return \html_writer::empty_tag('img', array('src' => $this->get('icon'), 'alt' => $this->get('name') . ' icon'));
+        return \html_writer::empty_tag('img', ['src' => $this->get('icon'), 'alt' => $this->get('name') . ' icon']);
     }
 
     /**

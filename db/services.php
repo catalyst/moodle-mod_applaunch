@@ -31,7 +31,7 @@ $functions = [
         'methodname'  => 'execute',
         'description' => 'Set completion of activity to COMPLETION_COMPLETE if completion is enabled.',
         'type'        => 'write',
-    ]
+    ],
 ];
 
 $services = [

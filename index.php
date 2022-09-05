@@ -31,7 +31,7 @@ $id = required_param('id', PARAM_INT); // Course ID.
 $PAGE->set_url(new moodle_url('/mod/applaunch/index.php', ['id' => $id]));
 
 // Ensure that the course specified is valid.
-if (!$course = $DB->get_record('course', array('id' => $id))) {
+if (!$course = $DB->get_record('course', ['id' => $id])) {
     throw new moodle_exception('invalidcourseid');
 }
 

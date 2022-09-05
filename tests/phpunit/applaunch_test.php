@@ -23,17 +23,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_applaunch;
+
 use mod_applaunch\app_type;
 use mod_applaunch\applaunch;
 
-defined('MOODLE_INTERNAL') || die();
+class applaunch_test extends \advanced_testcase {
 
-class mod_applaunch_applaunch_testcase extends advanced_testcase {
-
-    /** @var app_type $apptype App type. */
+    /** @var app_type App type. */
     protected $apptype;
 
-    /** @var stdClass $course Moodle course. */
+    /** @var stdClass Moodle course. */
     protected $course;
 
     /**
@@ -42,8 +42,13 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
     public function setUp(): void {
         $this->resetAfterTest();
         $this->course = $this->getDataGenerator()->create_course();
-        $this->apptype = new app_type(0, (object) ['name' => 'Test App', 'description' => 'Test description',
-            'url' => 'fake://test.com', 'icon' => 'https://icon.com', 'enabled' => 1]);
+        $this->apptype = new app_type(0, (object) [
+            'name' => 'Test App',
+            'description' => 'Test description',
+            'url' => 'fake://test.com',
+            'icon' => 'https://icon.com',
+            'enabled' => 1,
+        ]);
         $this->apptype->save();
     }
 
@@ -101,7 +106,8 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
             'course' => $this->course->id,
             'urlslug' => '  test ',
             'apptypeid' => $this->apptype->get('id'),
-            'completionexternal' => 1]);
+            'completionexternal' => 1,
+        ]);
         $instance->save();
         $this->assertEquals('test', $instance->get('urlslug'));
     }
@@ -116,15 +122,12 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
             'course' => $this->course->id,
             'urlslug' => '?test=1',
             'apptypeid' => $this->apptype->get('id'),
-            'completionexternal' => 1]);
+            'completionexternal' => 1,
+        ]);
         $instance->save();
         $expected = 'fake://test.com?test=1&token=123&baseuri=https%3A%2F%2Fwww.example.com%2Fmoodle';
         $url = $instance->get_url('123');
         $this->assertEquals($expected, $url);
-    }
-
-    public function test_process_mod_form_data() {
-
     }
 
     /**
@@ -157,9 +160,10 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
             'course' => $this->course->id,
             'urlslug' => '?test=1',
             'apptypeid' => $this->apptype->get('id'),
-            'completionexternal' => 1]);
+            'completionexternal' => 1,
+        ]);
         $instance->save();
-        $this->expectException(dml_exception::class);
+        $this->expectException(\dml_exception::class);
         $instance->get_cm();
     }
 
@@ -167,8 +171,10 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
      * Test if external completion for this activity is enabled.
      */
     public function test_is_external_completion_enabled() {
-        $applaunch = new applaunch(0, (object) ['name' => 'Test App', 'description' => 'Test description',
-            'course' => $this->course->id, 'urlslug' => 'test', 'apptypeid' => $this->apptype->get('id'), 'completionexternal' => 1]);
+        $applaunch = new applaunch(0, (object) [
+            'name' => 'Test App', 'description' => 'Test description',
+            'course' => $this->course->id, 'urlslug' => 'test', 'apptypeid' => $this->apptype->get('id'), 'completionexternal' => 1,
+        ]);
         $applaunch->save();
         $this->assertTrue($applaunch->is_external_completion_enabled());
     }
@@ -177,8 +183,10 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
      * Test if external completion for this activity is disabled.
      */
     public function test_is_external_completion_disabled() {
-        $applaunch = new applaunch(0, (object) ['name' => 'Test App', 'description' => 'Test description',
-            'course' => $this->course->id, 'urlslug' => 'test', 'apptypeid' => $this->apptype->get('id'), 'completionexternal' => 0]);
+        $applaunch = new applaunch(0, (object) [
+            'name' => 'Test App', 'description' => 'Test description',
+            'course' => $this->course->id, 'urlslug' => 'test', 'apptypeid' => $this->apptype->get('id'), 'completionexternal' => 0,
+        ]);
         $applaunch->save();
         $this->assertFalse($applaunch->is_external_completion_enabled());
     }
@@ -200,7 +208,7 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
     public function test_get_by_incorrect_cmid() {
         $course = $this->getDataGenerator()->create_course();
         $this->getDataGenerator()->create_module('applaunch', ['course' => $course->id, 'name' => 'Test name']);
-        $this->expectException(dml_missing_record_exception::class);
+        $this->expectException(\dml_missing_record_exception::class);
         applaunch::get_by_cmid('123456789');
     }
 
@@ -214,7 +222,8 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
             'course' => $this->course->id,
             'urlslug' => '?test=1',
             'apptypeid' => $this->apptype->get('id'),
-            'completionexternal' => 1]);
+            'completionexternal' => 1,
+        ]);
         $instance->save();
         $this->assertEquals($this->apptype->get_icon_url(), $instance->get_icon_url());
     }
@@ -229,7 +238,8 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
             'course' => $this->course->id,
             'urlslug' => '?test=1',
             'apptypeid' => $this->apptype->get('id'),
-            'completionexternal' => 1]);
+            'completionexternal' => 1,
+        ]);
         $instance->save();
         $instance->set('apptypeid', 0);
         $this->assertNull($instance->get_icon_url());
@@ -242,14 +252,30 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
      */
     public function instance_data_provider(): array {
         return [
-            'All data' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'course' => 0,
-                'urlslug' => 'test', 'apptypeid' => 0, 'completionexternal' => 1]],
-            'All data with no description' => [(object) ['name' => 'Test App', 'course' => 0,
-                'urlslug' => 'test', 'apptypeid' => 0, 'completionexternal' => 1]],
-            'All data with no urlslug' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'course' => 0,
-                'apptypeid' => 0, 'completionexternal' => 1]],
-            'All data with no completionexternal' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'course' => 0,
-                'urlslug' => 'test', 'apptypeid' => 0]],
+            'All data' => [
+                (object) [
+                    'name' => 'Test App', 'description' => 'Test description', 'course' => 0,
+                    'urlslug' => 'test', 'apptypeid' => 0, 'completionexternal' => 1,
+                ],
+            ],
+            'All data with no description' => [
+                (object) [
+                    'name' => 'Test App', 'course' => 0,
+                    'urlslug' => 'test', 'apptypeid' => 0, 'completionexternal' => 1,
+                ],
+            ],
+            'All data with no urlslug' => [
+                (object) [
+                    'name' => 'Test App', 'description' => 'Test description', 'course' => 0,
+                    'apptypeid' => 0, 'completionexternal' => 1,
+                ],
+            ],
+            'All data with no completionexternal' => [
+                (object) [
+                    'name' => 'Test App', 'description' => 'Test description', 'course' => 0,
+                    'urlslug' => 'test', 'apptypeid' => 0,
+                ],
+            ],
         ];
     }
 
@@ -260,14 +286,30 @@ class mod_applaunch_applaunch_testcase extends advanced_testcase {
      */
     public function bad_instance_data_provider(): array {
         return [
-            'All data with no course' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'urlslug' => 'test',
-                'apptypeid' => 0, 'completionexternal' => 1]],
-            'All data with no name' => [(object) ['description' => 'Test description', 'course' => 0,
-                'urlslug' => 'test', 'apptypeid' => 0, 'completionexternal' => 1]],
-            'All data with no apptypeid' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'course' => 0,
-                'urlslug' => 'test', 'completionexternal' => 1]],
-            'All data with apptypeid that doesnt exist' => [(object) ['name' => 'Test App', 'description' => 'Test description', 'course' => 0,
-                'urlslug' => 'test', 'apptypeid' => 12, 'completionexternal' => 1]],
+            'All data with no course' => [
+                (object) [
+                    'name' => 'Test App', 'description' => 'Test description', 'urlslug' => 'test',
+                    'apptypeid' => 0, 'completionexternal' => 1,
+                ],
+            ],
+            'All data with no name' => [
+                (object) [
+                    'description' => 'Test description', 'course' => 0,
+                    'urlslug' => 'test', 'apptypeid' => 0, 'completionexternal' => 1,
+                ],
+            ],
+            'All data with no apptypeid' => [
+                (object) [
+                    'name' => 'Test App', 'description' => 'Test description', 'course' => 0,
+                    'urlslug' => 'test', 'completionexternal' => 1,
+                ],
+            ],
+            'All data with apptypeid that doesnt exist' => [
+                (object) [
+                    'name' => 'Test App', 'description' => 'Test description', 'course' => 0,
+                    'urlslug' => 'test', 'apptypeid' => 12, 'completionexternal' => 1,
+                ],
+            ],
         ];
     }
 }

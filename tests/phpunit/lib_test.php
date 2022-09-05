@@ -23,13 +23,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_applaunch;
+
 use mod_applaunch\app_type;
 use mod_applaunch\applaunch;
 use mod_applaunch\completion;
 
-defined('MOODLE_INTERNAL') || die();
-
-class mod_applaunch_lib_testcase extends advanced_testcase {
+class lib_test extends \advanced_testcase {
 
     /**
      * This method runs before every test.
@@ -47,7 +47,7 @@ class mod_applaunch_lib_testcase extends advanced_testcase {
             'name' => 'Test App',
             'description' => 'Test description',
             'url' => 'fake://test.com',
-            'enabled' => 1
+            'enabled' => 1,
         ]);
         $apptype->save();
         $formdata = ['name' => 'Test name', 'course' => $course->id, 'apptypeid' => $apptype->get('id')];

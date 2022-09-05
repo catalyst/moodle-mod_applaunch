@@ -25,8 +25,6 @@
 
 use mod_applaunch\app_type;
 
-defined('MOODLE_INTERNAL') || die();
-
 class mod_applaunch_generator extends testing_module_generator {
 
     /**
@@ -37,7 +35,7 @@ class mod_applaunch_generator extends testing_module_generator {
      * @return stdClass
      */
     public function create_instance($record = null, array $options = null) {
-        $record = (object)(array)$record;
+        $record = (object) (array) $record;
         $uniqueid = random_string(6);
 
         // Generate an app type.
@@ -50,12 +48,12 @@ class mod_applaunch_generator extends testing_module_generator {
         $apptype->save();
 
         // Generate the applaunch instance.
-        $defaultsettings = array(
+        $defaultsettings = [
             'name' => 'App launcher ' . $uniqueid,
             'description' => '',
             'urlslug' => '',
             'apptypeid' => $apptype->get('id'),
-        );
+        ];
 
         foreach ($defaultsettings as $name => $value) {
             if (!isset($record->{$name})) {
@@ -63,6 +61,6 @@ class mod_applaunch_generator extends testing_module_generator {
             }
         }
 
-        return parent::create_instance($record, (array)$options);
+        return parent::create_instance($record, (array) $options);
     }
 }

@@ -43,7 +43,7 @@ $PAGE->set_url(new moodle_url('/mod/applaunch/launch.php', ['id' => $cmid]));
 if (confirm_sesskey($sesskey)) {
     // Attempt to launch the application.
     $token = \mod_applaunch\ws_token::generate_user_key($cmid, $USER->id);
-    header("Location: " . $appinstance->get_url($token));
+    header('Location: ' . $appinstance->get_url($token));
 } else {
     throw new moodle_exception('error:launchdirectaccess', 'applaunch');
 }

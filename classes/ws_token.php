@@ -104,7 +104,7 @@ class ws_token {
         global $DB;
         // Create token for course module that launched the application.
         $context = \context_module::instance($key->get_instance());
-        $service = $DB->get_record('external_services', array('shortname' => 'mod_applaunch_service'));
+        $service = $DB->get_record('external_services', ['shortname' => 'mod_applaunch_service']);
         return external_generate_token(EXTERNAL_TOKEN_PERMANENT, $service, $key->get_userid(), $context, $validuntil);
     }
 }

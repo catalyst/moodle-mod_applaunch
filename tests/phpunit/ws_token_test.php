@@ -23,11 +23,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_applaunch;
+
 use mod_applaunch\ws_token;
 
-defined('MOODLE_INTERNAL') || die();
-
-class mod_applaunch_external_ws_token_testcase extends advanced_testcase {
+class ws_token_test extends \advanced_testcase {
 
     /**
      * Run before every test.
@@ -56,7 +56,7 @@ class mod_applaunch_external_ws_token_testcase extends advanced_testcase {
      */
     public function test_generate_user_key_with_invalid_cmid() {
         $user = $this->getDataGenerator()->create_user();
-        $this->expectException(dml_exception::class);
+        $this->expectException(\dml_exception::class);
         ws_token::generate_user_key('test', $user->id);
     }
 
@@ -70,7 +70,7 @@ class mod_applaunch_external_ws_token_testcase extends advanced_testcase {
             'completion' => COMPLETION_TRACKING_AUTOMATIC,
             'completionview' => COMPLETION_VIEW_NOT_REQUIRED,
         ]);
-        $this->expectException(dml_exception::class);
+        $this->expectException(\dml_exception::class);
         ws_token::generate_user_key($applaunch->cmid, 'test');
     }
 
@@ -99,7 +99,7 @@ class mod_applaunch_external_ws_token_testcase extends advanced_testcase {
      * Test not getting user key data from a bad value.
      */
     public function test_get_user_key_not_exists() {
-        $this->expectException(dml_exception::class);
+        $this->expectException(\dml_exception::class);
         $userkey = ws_token::get_user_key('test');
     }
 
@@ -108,15 +108,15 @@ class mod_applaunch_external_ws_token_testcase extends advanced_testcase {
      */
     public function test_is_user_key_valid() {
         $userkey = new \mod_applaunch\user_key((object) [
-                'id' => 123,
-                'script' => 'mod_applaunch',
-                'value' => 'abc123',
-                'userid' => 123,
-                'instance' => 123,
-                'iprestriction' => null,
-                'validuntil' => time() + 3600, // Valid for an hour.
-                'timecreated' => time(),
-            ]);
+            'id' => 123,
+            'script' => 'mod_applaunch',
+            'value' => 'abc123',
+            'userid' => 123,
+            'instance' => 123,
+            'iprestriction' => null,
+            'validuntil' => time() + 3600, // Valid for an hour.
+            'timecreated' => time(),
+        ]);
         $valid = ws_token::is_user_key_valid($userkey);
         $this->assertTrue($valid);
     }

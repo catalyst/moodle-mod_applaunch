@@ -25,20 +25,14 @@
 
 namespace mod_applaunch;
 
-defined('MOODLE_INTERNAL') || die();
-
 class completion extends \core\persistent {
 
     const TABLE = 'mod_applaunch_completion';
 
     protected static function define_properties() {
         return [
-            'userid' => [
-                'type' => PARAM_INT,
-            ],
-            'cmid' => [
-                'type' => PARAM_INT,
-            ],
+            'userid' => ['type' => PARAM_INT],
+            'cmid' => ['type' => PARAM_INT],
             'state' => [
                 'type' => PARAM_INT,
                 'default' => COMPLETION_INCOMPLETE,
