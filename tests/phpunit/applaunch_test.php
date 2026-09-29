@@ -40,6 +40,7 @@ class applaunch_test extends \advanced_testcase {
      * This method runs before every test.
      */
     public function setUp(): void {
+        parent::setUp();
         $this->resetAfterTest();
         $this->course = $this->getDataGenerator()->create_course();
         $this->apptype = new app_type(0, (object) [
@@ -58,6 +59,7 @@ class applaunch_test extends \advanced_testcase {
     protected function tearDown(): void {
         $this->course = null;
         $this->apptype = null;
+        parent::tearDown();
     }
 
     /**
@@ -250,7 +252,7 @@ class applaunch_test extends \advanced_testcase {
      *
      * @return object[][]
      */
-    public function instance_data_provider(): array {
+    public static function instance_data_provider(): array {
         return [
             'All data' => [
                 (object) [
@@ -284,7 +286,7 @@ class applaunch_test extends \advanced_testcase {
      *
      * @return object[][]
      */
-    public function bad_instance_data_provider(): array {
+    public static function bad_instance_data_provider(): array {
         return [
             'All data with no course' => [
                 (object) [

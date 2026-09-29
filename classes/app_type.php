@@ -68,10 +68,10 @@ class app_type extends \core\persistent {
      */
     protected function before_save() {
         // Trim the url and icon.
-        $url = trim($this->get('url'));
+        $url = trim($this->get('url') ?? '');
         $this->set('url', $url);
 
-        $icon = trim($this->get('icon'));
+        $icon = trim($this->get('icon') ?? '');
         $this->set('icon', $icon);
     }
 

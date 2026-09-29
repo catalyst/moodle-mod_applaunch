@@ -25,6 +25,9 @@
 
 namespace mod_applaunch;
 
+use core\setting\part\category;
+use core\setting\root;
+
 class plugininfo extends \core\plugininfo\mod {
 
     const SETTINGS_CATEGORY = 'modapplaunchsettings';
@@ -41,8 +44,8 @@ class plugininfo extends \core\plugininfo\mod {
         global $CFG;
         require_once($CFG->libdir . '/adminlib.php');
 
-        $settings = admin_get_root()->locate(self::SETTINGS_CATEGORY);
-        if ($settings && $settings instanceof \admin_category) {
+        $settings = root::get()->locate(self::SETTINGS_CATEGORY);
+        if ($settings && $settings instanceof category) {
             return new \moodle_url('/admin/category.php', ['category' => self::SETTINGS_CATEGORY]);
         } else {
             return parent::get_settings_url();

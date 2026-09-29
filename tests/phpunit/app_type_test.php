@@ -156,7 +156,7 @@ class app_type_test extends \advanced_testcase {
         $this->assertDebuggingCalled('Invalid URL', DEBUG_DEVELOPER);
     }
 
-    public function instance_data_provider(): array {
+    public static function instance_data_provider(): array {
         return [
             'All data' => [
                 (object) [

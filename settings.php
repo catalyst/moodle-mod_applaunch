@@ -23,14 +23,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\setting\heading;
+use core\setting\page\externalpage;
+use core\setting\part\category;
 use mod_applaunch\plugininfo;
 
 defined('MOODLE_INTERNAL') || die();
 
-$ADMIN->add('modsettings', new admin_category(plugininfo::SETTINGS_CATEGORY, new lang_string('pluginname', 'applaunch')));
+$ADMIN->add('modsettings', new category(plugininfo::SETTINGS_CATEGORY, new lang_string('pluginname', 'applaunch')));
 
 // Add empty page with message while we don't have any settings.
-$settings->add(new admin_setting_heading('main_heading',
+$settings->add(new heading('main_heading',
         new lang_string('settings'),
         new lang_string('setting:nosettings', 'applaunch',
                 (new \moodle_url('/admin/category.php', ['category' => plugininfo::SETTINGS_CATEGORY]))->out())));
@@ -40,7 +43,7 @@ $settings = null; // Tell core we have managed the settings pages ourselves.
 
 if (has_capability('mod/applaunch:manageapptypes', context_system::instance())) {
     $ADMIN->add(plugininfo::SETTINGS_CATEGORY,
-        new admin_externalpage(
+        new externalpage(
             'mod_applaunch/app_type',
             get_string('setting:manage_app_types', 'applaunch'),
             new moodle_url('/mod/applaunch/app_type.php', ['action' => 'view']),
