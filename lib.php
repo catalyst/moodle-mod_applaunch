@@ -101,14 +101,10 @@ function applaunch_supports($feature) {
 = */
 function applaunch_get_coursemodule_info($cm): cached_cm_info {
     $applaunchinstance = new mod_applaunch\applaunch($cm->instance);
-    $apptype = new \mod_applaunch\app_type($applaunchinstance->get('apptypeid'));
 
     // Create cm cache object.
     $cminfo = new cached_cm_info();
     $cminfo->name = $applaunchinstance->get('name');
-    $cminfo->description = $applaunchinstance->get('description');
-    $cminfo->urlslug = $applaunchinstance->get('urlslug');
-    $cminfo->apptype = $apptype->to_record(); // Return the actual app type data, instead of only id.
 
     return $cminfo;
 }
